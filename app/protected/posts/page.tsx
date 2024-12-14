@@ -3,11 +3,13 @@
 import { useState, useEffect } from "react";
 import { createClient } from "@/utils/supabase/client";
 import AddPost from "@/components/AddPost";
+import { format } from "date-fns";
 
 type Post = {
   id: number;
   title: string;
   body: string;
+  created_at: string;
 };
 
 export default function Page() {
@@ -30,7 +32,6 @@ export default function Page() {
 
     fetchPosts();
 
-    // Realtime subscription for new posts
     const subscription = supabase
       .channel("posts")
       .on(
@@ -38,16 +39,16 @@ export default function Page() {
         { event: "INSERT", schema: "public", table: "posts" },
         (payload) => {
           const newPost = payload.new as Post;
-          setPosts((prevPosts) => [newPost, ...prevPosts]);
+          setPosts((prevPosts) => [...prevPosts, newPost]);
         }
       )
       .subscribe();
 
-    // Cleanup subscription on unmount
     return () => {
       supabase.removeChannel(subscription);
     };
   }, []);
+  console.log(posts);
 
   return (
     <div className="p-4">
@@ -58,9 +59,13 @@ export default function Page() {
       ) : posts.length > 0 ? (
         <ul className="space-y-4">
           {posts.map((post) => (
-            <li key={post.id} className="border p-4 rounded shadow">
+            <li key={post.id} className="border p-4 rounded shadow relative">
               <h2 className="text-xl font-semibold">{post.title}</h2>
               <p className="text-gray-700">{post.body}</p>
+              {/* თარიღის ჩვენება */}
+              <span className="absolute bottom-2 right-2 text-sm text-gray-500 italic">
+                {format(new Date(post.created_at), "PPPpp")}
+              </span>
             </li>
           ))}
         </ul>

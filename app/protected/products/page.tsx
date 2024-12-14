@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { createClient } from "@/utils/supabase/client";
 import AddProduct from "@/components/AddProduct";
+import { format } from "date-fns";
 
 type Product = {
   id: number;
@@ -41,7 +42,7 @@ export default function Products() {
         { event: "INSERT", schema: "public", table: "products" },
         (payload) => {
           const newProduct = payload.new as Product;
-          setProducts((prevProducts) => [newProduct, ...prevProducts]);
+          setProducts((prevProducts) => [...prevProducts, newProduct]);
         }
       )
       .subscribe();
@@ -62,7 +63,7 @@ export default function Products() {
           {products.map((product) => (
             <div
               key={product.id}
-              className="border p-4 rounded-lg shadow-lg flex flex-col bg-white"
+              className="border p-4 rounded-lg shadow-lg flex flex-col bg-white relative"
             >
               <h2 className="text-xl text-gray-700 font-semibold mb-2">
                 {product.title}
@@ -74,6 +75,11 @@ export default function Products() {
                 ${product.price}
               </p>
               <span className="text-sm text-gray-500">{product.category}</span>
+
+              {/* თარიღის ჩვენება */}
+              <span className="absolute bottom-2 right-2 text-xs text-gray-500 italic">
+                {format(new Date(product.created_at), "PPPpp")}
+              </span>
             </div>
           ))}
         </div>

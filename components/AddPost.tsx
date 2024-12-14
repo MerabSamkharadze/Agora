@@ -30,7 +30,7 @@ export default function AddPost() {
       }
 
       setSuccessMessage("Post added successfully!");
-      setTitle(""); // Clear form inputs
+      setTitle("");
       setBody("");
     } catch (error: any) {
       setErrorMessage(
