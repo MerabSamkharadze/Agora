@@ -2,6 +2,7 @@ import { signOutAction } from "@/app/actions";
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { createClient } from "@/utils/supabase/server";
+import Ping from "./Ping";
 
 export default async function AuthButton() {
   const supabase = await createClient();
@@ -12,7 +13,21 @@ export default async function AuthButton() {
 
   return user ? (
     <div className="flex items-center gap-4">
-      Hey, {user.email}!
+      <Link
+        href="/protected/posts"
+        className="text-sm  text-primary hover:underline sm:text-base"
+      >
+        Posts
+      </Link>
+      <Link
+        href="/protected/products"
+        className="text-sm  text-primary hover:underline sm:text-base"
+      >
+        Products
+      </Link>
+
+      <p className="text-black-300">{user.email}</p>
+
       <form action={signOutAction}>
         <Button type="submit" variant={"outline"}>
           Sign out
