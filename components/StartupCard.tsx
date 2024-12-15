@@ -6,15 +6,16 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export type Startup = {
-  _id: string;
+  _id: number;
   _createdAt: string;
   title?: string;
-  author?: { name: string; _id: string };
+  author?: string;
   views?: string;
   description?: string;
   category?: string;
   image?: string;
   pitch?: string;
+  price?: number;
 };
 
 const StartupCard = ({ post }: { post: Startup }) => {
@@ -41,14 +42,14 @@ const StartupCard = ({ post }: { post: Startup }) => {
 
       <div className="flex-between mt-5 gap-5">
         <div className="flex-1">
-          <Link href={`/user/${author?._id}`}>
-            <p className="text-16-medium line-clamp-1">{author?.name}</p>
+          <Link href={`/user/#`}>
+            <p className="text-16-medium line-clamp-1">{author}</p>
           </Link>
           <Link href={`/startup/${_id}`}>
             <h3 className="text-26-semibold line-clamp-1">{title}</h3>
           </Link>
         </div>
-        <Link href={`/user/${author?._id}`}>
+        <Link href={`/user/#`}>
           <Image
             src={
               "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/480px-User_icon_2.svg.png"

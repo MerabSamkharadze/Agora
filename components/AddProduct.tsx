@@ -5,10 +5,12 @@ import { createClient } from "@/utils/supabase/client";
 
 export default function AddProduct() {
   const supabase = createClient();
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(0);
   const [category, setCategory] = useState("");
+  const [image, setImage] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
@@ -16,7 +18,6 @@ export default function AddProduct() {
     setError(null);
     setSuccess(false);
 
-    // მიიღე ავტორიზებული იუზერის მონაცემები
     const {
       data: { user },
       error: authError,
@@ -33,6 +34,7 @@ export default function AddProduct() {
       description,
       price,
       category,
+      image,
       author: user.id, // აქ იწერება მომხმარებლის UUID
     });
 
@@ -86,6 +88,15 @@ export default function AddProduct() {
           placeholder="Category"
           value={category}
           onChange={(e) => setCategory(e.target.value)}
+          className="border p-2 w-full"
+        />
+      </div>
+      <div className="mb-4">
+        <input
+          type="text"
+          placeholder="image"
+          value={image}
+          onChange={(e) => setImage(e.target.value)}
           className="border p-2 w-full"
         />
       </div>

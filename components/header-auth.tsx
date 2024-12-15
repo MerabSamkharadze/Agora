@@ -19,14 +19,9 @@ export default async function AuthButton() {
           href="/protected/posts"
           className="text-sm  text-primary hover:underline sm:text-base"
         >
-          Posts
+          Blog
         </Link>
-        <Link
-          href="/protected/products"
-          className="text-sm  text-primary hover:underline sm:text-base"
-        >
-          Products
-        </Link>
+
         <Link
           href="/protected/create"
           className="text-sm  text-primary hover:underline sm:text-base"

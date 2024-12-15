@@ -1,82 +1,88 @@
 "use client";
 
-import React, { useState, useActionState } from "react";
+import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import MDEditor from "@uiw/react-md-editor";
 import { Button } from "@/components/ui/button";
+
 import { Send } from "lucide-react";
-import { formSchema } from "@/lib/validation";
-import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
+import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 
+const supabase = createClient();
+
 const StartupForm = () => {
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  const [pitch, setPitch] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("");
+  const [price, setPrice] = useState(0);
+  const [link, setLink] = useState("");
+  const [isPending, setIsPending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
+
   const { toast } = useToast();
   const router = useRouter();
 
-  const handleFormSubmit = async (prevState: any, formData: FormData) => {
-    try {
-      const formValues = {
-        title: formData.get("title") as string,
-        description: formData.get("description") as string,
-        category: formData.get("category") as string,
-        link: formData.get("link") as string,
-        pitch,
-      };
+  const handleAddProduct = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    setSuccess(false);
+    setIsPending(true);
 
-      await formSchema.parseAsync(formValues);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
 
-      const result = await createPitch(prevState, formData, pitch);
-
-      if (result.status == "SUCCESS") {
-        toast({
-          title: "Success",
-          description: "Your startup pitch has been created successfully",
-        });
-
-        router.push(`/startup/${result._id}`);
-      }
-
-      return result;
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        const fieldErorrs = error.flatten().fieldErrors;
-
-        setErrors(fieldErorrs as unknown as Record<string, string>);
-
-        toast({
-          title: "Error",
-          description: "Please check your inputs and try again",
-          variant: "destructive",
-        });
-
-        return { ...prevState, error: "Validation failed", status: "ERROR" };
-      }
-
+    if (authError || !user) {
+      setError("User is not authenticated");
       toast({
-        title: "Error",
-        description: "An unexpected error has occurred",
+        title: "Authentication Error",
+        description: "You need to log in to submit your pitch.",
         variant: "destructive",
       });
-
-      return {
-        ...prevState,
-        error: "An unexpected error has occurred",
-        status: "ERROR",
-      };
+      setIsPending(false);
+      return;
     }
+
+    const { error: insertError } = await supabase.from("products").insert({
+      title,
+      description,
+      category,
+      price,
+      image: link,
+      author: user.id,
+    });
+
+    if (insertError) {
+      setError(insertError.message);
+      toast({
+        title: "Submission Failed",
+        description: insertError.message,
+        variant: "destructive",
+      });
+    } else {
+      setSuccess(true);
+      toast({
+        title: "Submission Successful",
+        description: "Your pitch has been successfully submitted!",
+      });
+
+      setTitle("");
+      setDescription("");
+      setCategory("");
+      setLink("");
+
+      router.push("/dashboard");
+    }
+
+    setIsPending(false);
   };
 
-  const [state, formAction, isPending] = useActionState(handleFormSubmit, {
-    error: "",
-    status: "INITIAL",
-  });
-
   return (
-    <form action={formAction} className="startup-form ">
+    <form onSubmit={handleAddProduct} className="startup-form">
       <div>
         <label htmlFor="title" className="startup-form_label">
           Title
@@ -87,9 +93,10 @@ const StartupForm = () => {
           className="startup-form_input"
           required
           placeholder="Startup Title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
         />
-
-        {errors.title && <p className="startup-form_error">{errors.title}</p>}
+        {error && <p className="startup-form_error">{error}</p>}
       </div>
 
       <div>
@@ -102,11 +109,23 @@ const StartupForm = () => {
           className="startup-form_textarea"
           required
           placeholder="Startup Description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
         />
-
-        {errors.description && (
-          <p className="startup-form_error">{errors.description}</p>
-        )}
+      </div>
+      <div>
+        <label htmlFor="description" className="startup-form_label">
+          Price
+        </label>
+        <Textarea
+          id="price"
+          name="price"
+          className="startup-form_textarea"
+          required
+          placeholder="Startup Description"
+          value={price}
+          onChange={(e) => setPrice(Number(e.target.value))}
+        />
       </div>
 
       <div>
@@ -119,11 +138,9 @@ const StartupForm = () => {
           className="startup-form_input"
           required
           placeholder="Startup Category (Tech, Health, Education...)"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
         />
-
-        {errors.category && (
-          <p className="startup-form_error">{errors.category}</p>
-        )}
       </div>
 
       <div>
@@ -136,33 +153,9 @@ const StartupForm = () => {
           className="startup-form_input"
           required
           placeholder="Startup Image URL"
+          value={link}
+          onChange={(e) => setLink(e.target.value)}
         />
-
-        {errors.link && <p className="startup-form_error">{errors.link}</p>}
-      </div>
-
-      <div data-color-mode="light">
-        <label htmlFor="pitch" className="startup-form_label">
-          Pitch
-        </label>
-
-        <MDEditor
-          value={pitch}
-          onChange={(value) => setPitch(value as string)}
-          id="pitch"
-          preview="edit"
-          height={300}
-          style={{ borderRadius: 20, overflow: "hidden" }}
-          textareaProps={{
-            placeholder:
-              "Briefly describe your idea and what problem it solves",
-          }}
-          previewOptions={{
-            disallowedElements: ["style"],
-          }}
-        />
-
-        {errors.pitch && <p className="startup-form_error">{errors.pitch}</p>}
       </div>
 
       <Button

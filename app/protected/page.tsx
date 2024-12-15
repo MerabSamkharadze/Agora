@@ -1,6 +1,6 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import { fetchProducts } from "./products/page";
+import fetchProducts from "@/lib/fetchProducts";
 
 import SearchForm from "@/components/SearchForm";
 import StartupCard, { Startup } from "@/components/StartupCard";
