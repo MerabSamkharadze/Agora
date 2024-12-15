@@ -1,68 +1,42 @@
-"use client";
-
-import { useState, useEffect } from "react";
 import { createClient } from "@/utils/supabase/client";
 import AddProduct from "@/components/AddProduct";
 import { format } from "date-fns";
 
 type Product = {
-  id: number;
+  _id: number;
   title: string;
   description: string;
   price: number;
   category: string;
   author: string;
-  created_at: string;
+  _createdAt: string;
 };
 
-export default function Products() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
+export const fetchProducts = async (): Promise<Product[]> => {
+  const supabase = createClient();
+  const { data, error } = await supabase.from("products").select();
 
-  useEffect(() => {
-    const supabase = createClient();
+  if (error) {
+    console.error("Error fetching products:", error.message);
+    return [];
+  }
 
-    const fetchProducts = async () => {
-      setLoading(true);
-      const { data, error } = await supabase.from("products").select();
-      if (error) {
-        console.error("Error fetching products:", error.message);
-      } else {
-        setProducts(data || []);
-      }
-      setLoading(false);
-    };
+  return data || [];
+};
 
-    fetchProducts();
-
-    const subscription = supabase
-      .channel("products")
-      .on(
-        "postgres_changes",
-        { event: "INSERT", schema: "public", table: "products" },
-        (payload) => {
-          const newProduct = payload.new as Product;
-          setProducts((prevProducts) => [...prevProducts, newProduct]);
-        }
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(subscription);
-    };
-  }, []);
+// Since this is a server component, we can fetch the products directly in the component.
+const ProductsPage = async () => {
+  const products = await fetchProducts();
 
   return (
     <div className="p-4">
       <AddProduct />
       <h1 className="text-2xl font-bold mb-4">Products</h1>
-      {loading ? (
-        <p>Loading...</p>
-      ) : products.length > 0 ? (
+      {products.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {products.map((product) => (
             <div
-              key={product.id}
+              key={product._id}
               className="border p-4 rounded-lg shadow-lg flex flex-col bg-white relative"
             >
               <h2 className="text-xl text-gray-700 font-semibold mb-2">
@@ -78,7 +52,7 @@ export default function Products() {
 
               {/* თარიღის ჩვენება */}
               <span className="absolute bottom-2 right-2 text-xs text-gray-500 italic">
-                {format(new Date(product.created_at), "PPPpp")}
+                {format(new Date(product._createdAt), "PPPpp")}
               </span>
             </div>
           ))}
@@ -88,4 +62,6 @@ export default function Products() {
       )}
     </div>
   );
-}
+};
+
+export default ProductsPage;

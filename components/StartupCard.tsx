@@ -53,7 +53,7 @@ const StartupCard = ({ post }: { post: Startup }) => {
             src={
               "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/480px-User_icon_2.svg.png"
             }
-            alt={author?.name!}
+            alt={"product"}
             width={48}
             height={48}
             className="rounded-full"

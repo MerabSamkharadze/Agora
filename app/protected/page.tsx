@@ -1,5 +1,6 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
+import { fetchProducts } from "./products/page";
 
 import SearchForm from "@/components/SearchForm";
 import StartupCard, { Startup } from "@/components/StartupCard";
@@ -22,43 +23,7 @@ export default async function ProtectedPage({
   const query = (await searchParams).query;
   const params = { search: query || null };
 
-  const posts = [
-    {
-      _createdAt: new Date(Date.now()).toISOString(),
-      views: "123",
-      author: { name: "merabi", _id: "1" },
-      title: "erihaa",
-      category: "food",
-      _id: "1",
-      image:
-        "https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg",
-      description:
-        "ulasdhbvsadhbvjkdsibvkasdvaa sdvinaksdfvn adsvnadsnva vafdnva fdlaa",
-    },
-    {
-      _createdAt: new Date(Date.now()).toISOString(),
-      views: "123",
-      author: { name: "merabi", _id: "1" },
-      title: "erihaa",
-      category: "food",
-      _id: "2",
-      image: "https://fps.cdnpk.net/images/home/subhome-ai.webp?w=649&h=649",
-      description:
-        "ulasdhbvsadhbvjkdsibvkasdvaa sdvinaksdfvn adsvnadsnva vafdnva fdlaa",
-    },
-    {
-      _createdAt: new Date(Date.now()).toISOString(),
-      views: "123",
-      author: { name: "merabi", _id: "1" },
-      title: "erihaa",
-      category: "food",
-      _id: "3",
-      image:
-        "https://next-images.123rf.com/index/_next/image/?url=https://assets-cdn.123rf.com/index/static/assets/top-section-bg.jpeg&w=3840&q=75",
-      description:
-        "ulasdhbvsadhbvjkdsibvkasdvaa sdvinaksdfvn adsvnadsnva vafdnva fdlaa",
-    },
-  ];
+  const posts = await fetchProducts();
   return (
     <>
       <section className="pink_container">
