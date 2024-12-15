@@ -27,6 +27,12 @@ export default async function AuthButton() {
         >
           Products
         </Link>
+        <Link
+          href="/protected/create"
+          className="text-sm  text-primary hover:underline sm:text-base"
+        >
+          Create
+        </Link>
       </div>
 
       <div className="flex gap-3 items-center">
