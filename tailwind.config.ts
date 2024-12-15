@@ -18,20 +18,28 @@ const config = {
       },
     },
     extend: {
+      boxShadow: {
+        100: "2px 2px 0px 0px rgb(0, 0, 0)",
+        200: "2px 2px 0px 2px rgb(0, 0, 0)",
+        300: "2px 2px 0px 2px rgb(238, 43, 105)",
+      },
+      screens: {
+        xs: "475px",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
-        },
-        secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
-        },
+        // primary: {
+        //   DEFAULT: "hsl(var(--primary))",
+        //   foreground: "hsl(var(--primary-foreground))",
+        // },
+        // secondary: {
+        //   DEFAULT: "hsl(var(--secondary))",
+        //   foreground: "hsl(var(--secondary-foreground))",
+        // },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
@@ -52,12 +60,28 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        primary: {
+          "100": "#FFE8F0",
+          DEFAULT: "#EE2B69",
+        },
+        secondary: "#FBE843",
+        black: {
+          "100": "#333333",
+          "200": "#141413",
+          "300": "#7D8087",
+          DEFAULT: "#000000",
+        },
+        white: {
+          "100": "#F7F7F7",
+          DEFAULT: "#FFFFFF",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
@@ -74,7 +98,7 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
 } satisfies Config;
 
 export default config;
