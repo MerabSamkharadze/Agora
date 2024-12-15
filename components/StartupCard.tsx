@@ -5,9 +5,19 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 
-export type StartupTypeCard = Omit<Startup, "author"> & { author?: Author };
+export type Startup = {
+  _id: string;
+  _createdAt: string;
+  title?: string;
+  author?: { name: string; _id: string };
+  views?: string;
+  description?: string;
+  category?: string;
+  image?: string;
+  pitch?: string;
+};
 
-const StartupCard = ({ post }: { post: StartupTypeCard }) => {
+const StartupCard = ({ post }: { post: Startup }) => {
   const {
     _createdAt,
     views,
