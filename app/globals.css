@@ -175,7 +175,7 @@
   }
 
   .login {
-    @apply border-[5px] py-4 border-black bg-white text-black relative shadow-100 font-work-sans font-medium hover:shadow-none transition-all duration-500 !important;
+    @apply border-[5px] py-4 border-black bg-white text-black relative shadow-100  font-medium hover:shadow-none transition-all duration-500 !important;
   }
 
   /* searchform */

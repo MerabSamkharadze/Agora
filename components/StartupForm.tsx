@@ -75,7 +75,7 @@ const StartupForm = () => {
       setCategory("");
       setLink("");
 
-      router.push("/dashboard");
+      router.push("/protected");
     }
 
     setIsPending(false);

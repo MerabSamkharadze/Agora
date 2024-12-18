@@ -41,6 +41,13 @@ export default async function Login(props: { searchParams: Promise<Message> }) {
           <SubmitButton pendingText="Signing In..." formAction={signInAction}>
             Sign in
           </SubmitButton>
+          <a
+            href={
+              "https://seufbrmytjkefsunlwdm.supabase.co/auth/v1/authorize?provider=github"
+            }
+          >
+            login whith github
+          </a>
 
           <FormMessage message={searchParams} />
         </div>
