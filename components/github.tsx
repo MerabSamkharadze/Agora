@@ -15,7 +15,7 @@ const LogInWithGithub = () => {
   return (
     <button
       onClick={handleLogin}
-      className="flex items-center space-x-2 px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-700"
+      className="flex items-center w-full justify-center gap-3 px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-700"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
