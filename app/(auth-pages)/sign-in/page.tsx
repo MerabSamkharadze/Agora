@@ -1,5 +1,6 @@
 import { signInAction } from "@/app/actions";
 import { FormMessage, Message } from "@/components/form-message";
+import LogInWithGithub from "@/components/github";
 import { SubmitButton } from "@/components/submit-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -41,17 +42,11 @@ export default async function Login(props: { searchParams: Promise<Message> }) {
           <SubmitButton pendingText="Signing In..." formAction={signInAction}>
             Sign in
           </SubmitButton>
-          <a
-            href={
-              "https://seufbrmytjkefsunlwdm.supabase.co/auth/v1/authorize?provider=github"
-            }
-          >
-            login whith github
-          </a>
 
           <FormMessage message={searchParams} />
         </div>
       </form>
+      <LogInWithGithub />
     </>
   );
 }
