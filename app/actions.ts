@@ -5,6 +5,27 @@ import { createClient } from "@/utils/supabase/server";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
+// github
+export const signInActionWithGithub = async () => {
+  const supabase = await createClient();
+  try {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "github",
+      options: {
+        redirectTo: "http://localhost:3000/auth/callback",
+      },
+    });
+    console.log("url ----------" + data.url);
+
+    if (data.url) {
+      return redirect(data.url);
+    }
+  } catch (error) {
+    console.error("Error logging in with GitHub:", error);
+  }
+};
+// github
+
 export const signUpAction = async (formData: FormData) => {
   const email = formData.get("email")?.toString();
   const password = formData.get("password")?.toString();
