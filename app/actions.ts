@@ -8,20 +8,17 @@ import { redirect } from "next/navigation";
 // github
 export const signInActionWithGithub = async () => {
   const supabase = await createClient();
-  try {
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: "github",
-      options: {
-        redirectTo: "http://localhost:3000/auth/callback",
-      },
-    });
-    console.log("url ----------" + data.url);
 
-    if (data.url) {
-      return redirect(data.url);
-    }
-  } catch (error) {
-    console.error("Error logging in with GitHub:", error);
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "github",
+    options: {
+      redirectTo: "http://localhost:3000/auth/callback",
+    },
+  });
+  console.log("url ----------" + data.url);
+
+  if (data.url) {
+    return redirect(data.url);
   }
 };
 // github
