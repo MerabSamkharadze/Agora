@@ -1,4 +1,4 @@
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@/utils/supabase/server";
 type Product = {
   _id: number;
   title: string;
@@ -10,7 +10,7 @@ type Product = {
 };
 
 const fetchProducts = async (): Promise<Product[]> => {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data, error } = await supabase.from("products").select();
 
   if (error) {

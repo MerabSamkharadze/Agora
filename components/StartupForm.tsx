@@ -83,7 +83,7 @@ const StartupForm = () => {
 
   return (
     <form onSubmit={handleAddProduct} className="startup-form">
-      <div>
+      <div className="w-full">
         <label htmlFor="title" className="startup-form_label">
           Title
         </label>

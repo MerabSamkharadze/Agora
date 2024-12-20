@@ -108,7 +108,7 @@
   }
 
   .pink_container {
-    @apply w-full bg-primary min-h-[530px] pattern flex justify-center items-center flex-col py-10 px-6;
+    @apply bg-primary min-h-[530px] w-full pattern flex justify-center items-center flex-col py-10 px-6;
   }
 
   .tag {
@@ -218,7 +218,7 @@
 
   /* startupform */
   .startup-form {
-    @apply max-w-2xl mx-auto bg-white my-10 space-y-8 px-6;
+    @apply w-5/6 mx-auto bg-white my-10 space-y-8 px-6;
   }
 
   .startup-form_label {
