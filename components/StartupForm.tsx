@@ -16,19 +16,25 @@ const StartupForm = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
-  const [price, setPrice] = useState(0);
-  const [link, setLink] = useState("");
+  const [price, setPrice] = useState<number>(0);
+  const [image, setImage] = useState<File | null>(null);
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
 
   const { toast } = useToast();
   const router = useRouter();
 
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setImage(file);
+    }
+    console.log(file);
+  };
+
   const handleAddProduct = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-    setSuccess(false);
     setIsPending(true);
 
     const {
@@ -47,12 +53,35 @@ const StartupForm = () => {
       return;
     }
 
+    let imageUrl = "";
+    if (image) {
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from("product-images")
+        .upload(`products/${Date.now()}_${image.name}`, image);
+
+      if (uploadError) {
+        setError("Failed to upload image");
+        toast({
+          title: "Image Upload Error",
+          description: uploadError.message,
+          variant: "destructive",
+        });
+        setIsPending(false);
+        return;
+      }
+
+      const { data: publicUrlData } = supabase.storage
+        .from("product-images")
+        .getPublicUrl(uploadData.path);
+      imageUrl = publicUrlData.publicUrl;
+    }
+
     const { error: insertError } = await supabase.from("products").insert({
       title,
       description,
       category,
       price,
-      image: link,
+      image: imageUrl,
       author: user.id,
     });
 
@@ -64,7 +93,6 @@ const StartupForm = () => {
         variant: "destructive",
       });
     } else {
-      setSuccess(true);
       toast({
         title: "Submission Successful",
         description: "Your pitch has been successfully submitted!",
@@ -73,7 +101,8 @@ const StartupForm = () => {
       setTitle("");
       setDescription("");
       setCategory("");
-      setLink("");
+      setPrice(0);
+      setImage(null);
 
       router.push("/protected");
     }
@@ -113,16 +142,18 @@ const StartupForm = () => {
           onChange={(e) => setDescription(e.target.value)}
         />
       </div>
+
       <div>
-        <label htmlFor="description" className="startup-form_label">
+        <label htmlFor="price" className="startup-form_label">
           Price
         </label>
-        <Textarea
+        <Input
           id="price"
           name="price"
-          className="startup-form_textarea"
+          type="number"
+          className="startup-form_input"
           required
-          placeholder="Startup Description"
+          placeholder="Price"
           value={price}
           onChange={(e) => setPrice(Number(e.target.value))}
         />
@@ -144,17 +175,16 @@ const StartupForm = () => {
       </div>
 
       <div>
-        <label htmlFor="link" className="startup-form_label">
-          Image URL
+        <label htmlFor="image" className="startup-form_label">
+          Image
         </label>
         <Input
-          id="link"
-          name="link"
+          id="image"
+          name="image"
           className="startup-form_input"
-          required
-          placeholder="Startup Image URL"
-          value={link}
-          onChange={(e) => setLink(e.target.value)}
+          type="file"
+          accept="image/*"
+          onChange={handleImageChange}
         />
       </div>
 
