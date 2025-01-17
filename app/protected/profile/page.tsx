@@ -18,13 +18,15 @@ const Page = async () => {
         <div className="profile_card">
           <div className="profile_title">
             <h3 className="text-24-black uppercase text-center line-clamp-1">
-              {user.email}
+              {user.user_metadata.name}
             </h3>
           </div>
 
-          {/* Replace with default profile image if not set */}
           <Image
-            src={user.user_metadata.avatar_url || "/default-avatar.png"}
+            src={
+              user.user_metadata.avatar_url ||
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/800px-User_icon_2.svg.png"
+            }
             alt={user.email || "User email not available"}
             width={220}
             height={220}
@@ -35,10 +37,14 @@ const Page = async () => {
             @{user.email?.split("@")[0] || "Unknown"}
           </p>
           <p className="mt-1 text-center text-14-normal">
-            {user.user_metadata.bio || "No bio available"}
+            {user.user_metadata.email_verified
+              ? "Verified ✅"
+              : "Not verified ❌"}
           </p>
 
-          {/* Display last sign-in date */}
+          <p className="mt-2 text-center text-14-normal">
+            Joined: {new Date(user.created_at).toLocaleString()}
+          </p>
           <p className="mt-2 text-center text-14-normal">
             Last sign-in:{" "}
             {new Date(user.last_sign_in_at || "").toLocaleString()}
