@@ -28,6 +28,12 @@ export default async function AuthButton() {
         >
           Create
         </Link>
+        <Link
+          href="/protected/profile"
+          className="text-sm  text-primary hover:underline sm:text-base"
+        >
+          Profile
+        </Link>
       </div>
 
       <div className="flex gap-3 items-center">

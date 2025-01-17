@@ -66,7 +66,9 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
             {product.description}
           </article>
 
-          <p className="price-tag">Price: ${product.price}</p>
+          <p className="text-lg font-semibold text-white bg-primary py-3 px-5 rounded-full shadow-md border-2 border-primary hover:bg-primary-100 hover:text-black transition-all duration-300">
+            Price: ${product.price}
+          </p>
         </div>
 
         <hr className="divider" />

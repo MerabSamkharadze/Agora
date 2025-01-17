@@ -255,7 +255,7 @@
   }
 
   .category-tag {
-    @apply font-medium text-[16px] bg-primary-100 px-4 py-2 rounded-full;
+    @apply font-medium text-[16px] text-black-200 bg-primary-100 px-4 py-2 rounded-full;
   }
 
   .pattern {
