@@ -12,7 +12,8 @@ export const signInActionWithGithub = async () => {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "github",
     options: {
-      redirectTo: "http://localhost:3000/auth/callback",
+      redirectTo:
+        "https://agora-c6acasftc-merab-samkharadzes-projects.vercel.app//auth/callback",
     },
   });
   console.log("url ----------" + data.url);
