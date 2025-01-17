@@ -16,7 +16,6 @@ export const signInActionWithGithub = async () => {
       redirectTo: `${origin}/auth/callback`,
     },
   });
-  console.log(data.url);
 
   if (data.url) {
     return redirect(data.url);
