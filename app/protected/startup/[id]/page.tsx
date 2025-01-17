@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { formatDate } from "@/lib/utils";
-import Link from "next/link";
-import Image from "next/image";
+// import Link from "next/link";
+// import Image from "next/image";
 import { createClient } from "@/utils/supabase/server";
 
 import { Skeleton } from "@/components/ui/skeleton";
@@ -20,7 +20,7 @@ type Product = {
   views: string;
 };
 
-type EditorPostType = Product[];
+// type EditorPostType = Product[];
 
 type Props = {
   params: { id: string };
