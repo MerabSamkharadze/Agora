@@ -1,8 +1,8 @@
+"use client";
 import { Suspense } from "react";
 import { formatDate } from "@/lib/utils";
-// import Link from "next/link";
-// import Image from "next/image";
 import { createClient } from "@/utils/supabase/server";
+import * as React from "react";
 
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -20,21 +20,16 @@ type Product = {
   views: string;
 };
 
-// type EditorPostType = Product[];
+const Page = async ({ params }) => {
+  const { id } = React.use(params);
 
-type Props = {
-  params: { id: string };
-};
-
-const Page = async ({ params }: Props) => {
-  const { id } = await params;
   const supabase = await createClient();
 
   // Fetch product data
   const { data: posts, error } = await supabase
     .from("products")
     .select("*")
-    .eq("_id", parseInt(id));
+    .eq("_id", parseInt(id, 10));
 
   if (error) {
     console.error("Error fetching product:", error.message);
