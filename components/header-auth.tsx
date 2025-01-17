@@ -23,7 +23,7 @@ export default async function AuthButton() {
         </Link>
 
         <Link
-          href="/protected/create"
+          href="/protected/startup/create"
           className="text-sm  text-primary hover:underline sm:text-base"
         >
           Create
