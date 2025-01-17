@@ -1,8 +1,6 @@
-"use client";
 import { Suspense } from "react";
 import { formatDate } from "@/lib/utils";
 import { createClient } from "@/utils/supabase/server";
-import * as React from "react";
 
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -20,8 +18,8 @@ type Product = {
   views: string;
 };
 
-const Page = async ({ params }) => {
-  const { id } = React.use(params);
+const Page = async ({ params }: { params: { id: string } }) => {
+  const { id } = await params;
 
   const supabase = await createClient();
 
