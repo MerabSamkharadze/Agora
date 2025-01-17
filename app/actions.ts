@@ -8,15 +8,15 @@ import { redirect } from "next/navigation";
 // github
 export const signInActionWithGithub = async () => {
   const supabase = await createClient();
+  const origin = (await headers()).get("origin");
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "github",
     options: {
-      redirectTo:
-        "https://agora-c6acasftc-merab-samkharadzes-projects.vercel.app//auth/callback",
+      redirectTo: `${origin}/auth/callback`,
     },
   });
-  console.log("url ----------" + data.url);
+  // console.log("url ----------" + data.url);
 
   if (data.url) {
     return redirect(data.url);
