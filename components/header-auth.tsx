@@ -4,6 +4,7 @@ import { Button } from "./ui/button";
 import { createClient } from "@/utils/supabase/server";
 import Ping from "./Ping";
 import { ThemeSwitcher } from "./theme-switcher";
+import Cart from "./Cart";
 
 export default async function AuthButton() {
   const supabase = await createClient();
@@ -34,6 +35,7 @@ export default async function AuthButton() {
         >
           Profile
         </Link>
+        <Cart />
       </div>
 
       <div className="flex gap-3 items-center">

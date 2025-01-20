@@ -6,7 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export const experimental_ppr = true;
 
-type Product = {
+export type Product = {
   _id: number;
   title: string;
   description: string;
@@ -16,6 +16,7 @@ type Product = {
   _createdAt: string;
   image: string;
   views: string;
+  stripe_price_id: string;
 };
 
 const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
