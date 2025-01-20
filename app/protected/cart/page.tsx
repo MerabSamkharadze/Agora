@@ -57,7 +57,7 @@ const CartPage = () => {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center space-x-4 mt-8">
-        <div className="w-8 h-8 border-4 border-t-4 border-green-500 border-solid rounded-full animate-spin"></div>
+        <div className="w-8 h-8 border-4 border-t-4 border-primary border-solid rounded-full animate-spin"></div>
         <p className="text-lg font-semibold text-gray-600">
           Loading your cart...
         </p>
