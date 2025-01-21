@@ -103,24 +103,8 @@ const StartupForm = () => {
     try {
       const { stripeProduct, stripePrice } =
         await createStripeProduct(productData);
-
-      // Convert Stripe objects to plain objects to avoid passing classes to client-side
-      const plainStripeProduct = {
-        id: stripeProduct.id,
-        name: stripeProduct.name,
-        description: stripeProduct.description,
-        images: stripeProduct.images,
-        created: stripeProduct.created,
-      };
-
-      const plainStripePrice = {
-        id: stripePrice.id,
-        amount: stripePrice.unit_amount,
-        currency: stripePrice.currency,
-      };
-
-      console.log("Product created:", plainStripeProduct);
-      console.log("Price created:", plainStripePrice);
+      console.log("Product created:", stripeProduct);
+      console.log("Price created:", stripePrice);
     } catch (error: any) {
       setError("Failed to create product in Stripe");
       toast({
@@ -209,12 +193,12 @@ const StartupForm = () => {
         <Input
           id="price"
           name="price"
-          type="number"
+          type="text"
           className="startup-form_input"
           required
           placeholder="Price"
           value={price}
-          onChange={(e) => setPrice(e.target.valueAsNumber)}
+          onChange={(e) => setPrice(Number(e.target.value))}
         />
       </div>
 

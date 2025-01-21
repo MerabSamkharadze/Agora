@@ -7,14 +7,22 @@ type CreateStripeProductProps = {
   title: string;
   description: string;
   price: number;
-  imageUrl?: string; // სურათი არ არის სავალდებულო
+  imageUrl?: string;
 };
 
-/**
- * ფუნქცია, რომელიც Stripe-ში პროდუქტსა და ფასს ქმნის.
- * @param props CreateStripeProductProps
- * @returns შექმნილი პროდუქტისა და ფასის მონაცემები
- */
+type StripeProductResponse = {
+  id: string;
+  name: string;
+  description: string;
+  imageUrl?: string;
+};
+
+type StripePriceResponse = {
+  id: string;
+  unit_amount: number;
+  currency: string;
+};
+
 export const createStripeProduct = async ({
   title,
   description,
@@ -22,21 +30,33 @@ export const createStripeProduct = async ({
   imageUrl,
 }: CreateStripeProductProps) => {
   try {
-    // პროდუქტის შექმნა Stripe-ში
     const stripeProduct = await stripe.products.create({
       name: title,
       description,
       images: imageUrl ? [imageUrl] : [],
     });
 
-    // ფასის შექმნა Stripe-ში
     const stripePrice = await stripe.prices.create({
       product: stripeProduct.id,
-      unit_amount: price * 100, // Stripe იღებს ფასს ცენტებში
+      unit_amount: price * 100, // Stripe expects cents
       currency: "usd",
     });
 
-    return { stripeProduct, stripePrice };
+    // Return only the necessary data (plain objects)
+    const productResponse: StripeProductResponse = {
+      id: stripeProduct.id,
+      name: stripeProduct.name,
+      description: stripeProduct.description ?? "",
+      imageUrl: imageUrl ? imageUrl : "",
+    };
+
+    const priceResponse: StripePriceResponse = {
+      id: stripePrice.id,
+      unit_amount: stripePrice.unit_amount ?? 0,
+      currency: stripePrice.currency,
+    };
+
+    return { stripeProduct: productResponse, stripePrice: priceResponse };
   } catch (error) {
     console.error("Error creating product and price in Stripe:", error);
     throw new Error("Failed to create product and price in Stripe.");
