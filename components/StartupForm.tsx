@@ -8,6 +8,8 @@ import { Send } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
+import { createStripeProduct } from "@/actions/createProductOnStripe";
+import { v4 as uuidv4 } from "uuid";
 
 const supabase = createClient();
 
@@ -28,12 +30,13 @@ const StartupForm = () => {
     const file = e.target.files?.[0];
     if (file) {
       setImage(file);
-      setPreviewUrl(URL.createObjectURL(file)); // Preview URL-ის შექმნა
+      setPreviewUrl(URL.createObjectURL(file));
     }
   };
 
-  const handleAddProduct = async (e: React.FormEvent) => {
+  const handleSubmitStartupForm = async (e: React.FormEvent) => {
     e.preventDefault();
+
     setError(null);
     setIsPending(true);
 
@@ -53,11 +56,18 @@ const StartupForm = () => {
       return;
     }
 
+    if (price <= 0) {
+      setError("Price must be greater than zero.");
+      setIsPending(false);
+      return;
+    }
+
     let imageUrl = "";
     if (image) {
+      const uniquePath = `products/${uuidv4()}_${image.name}`;
       const { data: uploadData, error: uploadError } = await supabase.storage
         .from("product-images")
-        .upload(`products/${Date.now()}_${image.name}`, image);
+        .upload(uniquePath, image);
 
       if (uploadError) {
         setError("Failed to upload image");
@@ -73,7 +83,55 @@ const StartupForm = () => {
       const { data: publicUrlData } = supabase.storage
         .from("product-images")
         .getPublicUrl(uploadData.path);
+
+      if (!publicUrlData.publicUrl) {
+        setError("Failed to retrieve public URL for the uploaded image.");
+        toast({
+          title: "Image Upload Error",
+          description: "Public URL could not be retrieved.",
+          variant: "destructive",
+        });
+        setIsPending(false);
+        return;
+      }
+
       imageUrl = publicUrlData.publicUrl;
+    }
+
+    // Create product in Stripe
+    const productData = { title, description, price, imageUrl };
+    try {
+      const { stripeProduct, stripePrice } =
+        await createStripeProduct(productData);
+
+      // Convert Stripe objects to plain objects to avoid passing classes to client-side
+      const plainStripeProduct = {
+        id: stripeProduct.id,
+        name: stripeProduct.name,
+        description: stripeProduct.description,
+        images: stripeProduct.images,
+        created: stripeProduct.created,
+      };
+
+      const plainStripePrice = {
+        id: stripePrice.id,
+        amount: stripePrice.unit_amount,
+        currency: stripePrice.currency,
+      };
+
+      console.log("Product created:", plainStripeProduct);
+      console.log("Price created:", plainStripePrice);
+    } catch (error: any) {
+      setError("Failed to create product in Stripe");
+      toast({
+        title: "Stripe Error",
+        description:
+          error.message ||
+          "An error occurred while creating the product on Stripe.",
+        variant: "destructive",
+      });
+      setIsPending(false);
+      return;
     }
 
     const { error: insertError } = await supabase.from("products").insert({
@@ -98,7 +156,7 @@ const StartupForm = () => {
         description: "Your pitch has been successfully submitted!",
       });
 
-      // ვასუფთავებთ ველებს
+      // Clear fields
       setTitle("");
       setDescription("");
       setCategory("");
@@ -113,7 +171,7 @@ const StartupForm = () => {
   };
 
   return (
-    <form onSubmit={handleAddProduct} className="startup-form">
+    <form onSubmit={handleSubmitStartupForm} className="startup-form">
       <div className="w-full">
         <label htmlFor="title" className="startup-form_label">
           Title
@@ -127,7 +185,6 @@ const StartupForm = () => {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
-        {error && <p className="startup-form_error">{error}</p>}
       </div>
 
       <div>
@@ -157,7 +214,7 @@ const StartupForm = () => {
           required
           placeholder="Price"
           value={price}
-          onChange={(e) => setPrice(Number(e.target.value))}
+          onChange={(e) => setPrice(e.target.valueAsNumber)}
         />
       </div>
 
@@ -196,7 +253,7 @@ const StartupForm = () => {
           <img
             src={previewUrl}
             alt="Preview"
-            className="w-32 h-32 object-cover rounded-md border"
+            className="w-32 h-32 object-cover rounded-md border shadow-lg"
           />
         </div>
       )}
