@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-
 import { Send } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { createClient } from "@/utils/supabase/client";
@@ -18,6 +17,7 @@ const StartupForm = () => {
   const [category, setCategory] = useState("");
   const [price, setPrice] = useState<number>(0);
   const [image, setImage] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -28,8 +28,8 @@ const StartupForm = () => {
     const file = e.target.files?.[0];
     if (file) {
       setImage(file);
+      setPreviewUrl(URL.createObjectURL(file)); // Preview URL-ის შექმნა
     }
-    console.log(file);
   };
 
   const handleAddProduct = async (e: React.FormEvent) => {
@@ -98,11 +98,13 @@ const StartupForm = () => {
         description: "Your pitch has been successfully submitted!",
       });
 
+      // ვასუფთავებთ ველებს
       setTitle("");
       setDescription("");
       setCategory("");
       setPrice(0);
       setImage(null);
+      setPreviewUrl(null);
 
       router.push("/protected");
     }
@@ -187,6 +189,17 @@ const StartupForm = () => {
           onChange={handleImageChange}
         />
       </div>
+
+      {previewUrl && (
+        <div className="mt-4">
+          <p className="startup-form_label">Image Preview:</p>
+          <img
+            src={previewUrl}
+            alt="Preview"
+            className="w-32 h-32 object-cover rounded-md border"
+          />
+        </div>
+      )}
 
       <Button
         type="submit"
