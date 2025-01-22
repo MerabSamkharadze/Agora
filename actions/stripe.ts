@@ -74,12 +74,12 @@ export async function createCheckoutSession(
   const successUrl =
     purchaseType === "subscription"
       ? `${origin}/${locale}/pricing/result?session_id={CHECKOUT_SESSION_ID}`
-      : `${origin}/${locale}/cart/result?session_id={CHECKOUT_SESSION_ID}`;
+      : `${origin}/protected/cart/result?session_id={CHECKOUT_SESSION_ID}`;
 
   const cancelUrl =
     purchaseType === "subscription"
       ? `${origin}/${locale}/subscribe/cancel`
-      : `${origin}/${locale}/cart`;
+      : `${origin}/protected/cart`;
 
   const checkoutSession: Stripe.Checkout.Session =
     await stripe.checkout.sessions.create({
