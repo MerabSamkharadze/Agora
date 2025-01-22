@@ -21,7 +21,6 @@ export default async function ResultPage(props: {
   if (!productIdsString) {
     throw new Error("No product IDs found in the session metadata.");
   }
-  console.log(productIdsString);
 
   const productIds = productIdsString.split(",").map((id) => parseInt(id));
 
@@ -43,12 +42,7 @@ export default async function ResultPage(props: {
   const orderInsertPromises = products?.map((product) => {
     return supabase.from("orders").insert({
       user_id: userId,
-      product_id: product.id,
-      stripe_product_id: product.stripe_product_id,
-      stripe_price_id: product.stripe_price_id,
-      stripe_purchase_id: checkoutSession.id,
-      description: product.description,
-      price: product.price,
+      products,
     });
   });
 
@@ -68,8 +62,8 @@ export default async function ResultPage(props: {
     checkoutSession.payment_intent as Stripe.PaymentIntent | null;
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-br from-blue-50 to-blue-100">
-      <div className="p-8 rounded-lg shadow-lg text-center bg-white">
+    <div className="flex items-center justify-center h-screen bg-gradient-to-br from-primary to-secondary">
+      <div className="w-full max-w-4xl p-8 rounded-lg shadow-lg text-center bg-white mx-4">
         <h1 className="text-3xl font-bold text-primary mb-4">
           🎉 Order Confirmed!
         </h1>
@@ -80,8 +74,8 @@ export default async function ResultPage(props: {
           If you have questions, contact us at any time!
         </p>
         <Link
-          href="/profile/orders"
-          className="inline-block bg-primary  text-white font-medium py-4 px-6 rounded-lg shadow-md transition-transform transform hover:scale-105"
+          href="/protected/profile/orders"
+          className="inline-block bg-primary text-white font-medium py-4 px-6 rounded-lg shadow-md transition-transform transform hover:scale-105"
         >
           View Your Orders
         </Link>
