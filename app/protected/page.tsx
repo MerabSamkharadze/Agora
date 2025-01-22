@@ -68,7 +68,7 @@ export default async function ProtectedPage({
         <ul className="mt-7 card_grid">
           {posts?.length > 0 ? (
             posts.map((post: Startup) => (
-              <StartupCard key={post?._id} post={post} />
+              <StartupCard key={post?._id} product={post} />
             ))
           ) : (
             <p className="no-results">No startups found</p>

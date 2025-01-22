@@ -17,6 +17,7 @@ export type Product = {
   image: string;
   views: string;
   stripe_price_id: string;
+  stripe_product_id?: string;
 };
 
 const Page = async ({ params }: { params: Promise<{ id: string }> }) => {

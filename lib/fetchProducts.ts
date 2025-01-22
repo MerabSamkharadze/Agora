@@ -7,6 +7,10 @@ type Product = {
   category: string;
   author: string;
   _createdAt: string;
+  image: string;
+  views: string;
+  stripe_price_id: string;
+  stripe_product_id?: string;
 };
 
 const fetchProducts = async (): Promise<Product[]> => {
