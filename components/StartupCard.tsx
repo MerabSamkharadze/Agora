@@ -83,7 +83,7 @@ const StartupCard = ({ product }: { product: Startup }) => {
               "use server";
               addToCartHandler({ product });
             }}
-            className="inline-block text-2xl py-3 px-8 self-start border border-solid border-green-600 bg-green-600 text-white rounded-md transition-all duration-300 ease-in-out mt-auto hover:bg-green-700 hover:border-green-700 focus:ring-4 focus:ring-green-500 active:bg-green-800  dark:border-green-500 dark:bg-green-500 dark:text-green-200 dark:hover:bg-green-600 dark:focus:ring-green-300"
+            className="text-sm py-2 px-4 bg-primary text-white rounded transition-colors duration-200 hover:bg-primary-dark focus:outline-none"
           >
             Add to cart
           </button>

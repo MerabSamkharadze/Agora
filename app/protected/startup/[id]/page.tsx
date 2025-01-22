@@ -69,7 +69,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
           </article>
 
           <p className="text-lg font-semibold text-white bg-primary py-3 px-5 rounded-full shadow-md border-2 border-primary hover:bg-primary-100 hover:text-black transition-all duration-300">
-            Price: ${product.price}
+            Price: ${product.price / 100}
           </p>
         </div>
 
