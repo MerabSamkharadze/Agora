@@ -18,7 +18,7 @@ const Page = async () => {
         <div className="profile_card">
           <div className="profile_title">
             <h3 className="text-24-black uppercase text-center line-clamp-1">
-              {user.user_metadata.name}
+              {user.user_metadata.name || user.email}
             </h3>
           </div>
 
@@ -39,7 +39,7 @@ const Page = async () => {
           <p className="mt-1 text-center text-14-normal">
             {user.user_metadata.email_verified
               ? "Verified ✅"
-              : "Not verified ❌"}
+              : "Not verified ✖️"}
           </p>
 
           <p className="mt-2 text-center text-14-normal">

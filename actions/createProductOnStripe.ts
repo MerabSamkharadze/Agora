@@ -38,11 +38,10 @@ export const createStripeProduct = async ({
 
     const stripePrice = await stripe.prices.create({
       product: stripeProduct.id,
-      unit_amount: price * 100, // Stripe expects cents
+      unit_amount: price * 100,
       currency: "usd",
     });
 
-    // Return only the necessary data (plain objects)
     const productResponse: StripeProductResponse = {
       id: stripeProduct.id,
       name: stripeProduct.name,

@@ -63,6 +63,8 @@ const StartupForm = () => {
     }
 
     let imageUrl = "";
+    let stripe_product_id = null;
+    let stripe_price_id = null;
     if (image) {
       const uniquePath = `products/${uuidv4()}_${image.name}`;
       const { data: uploadData, error: uploadError } = await supabase.storage
@@ -103,8 +105,10 @@ const StartupForm = () => {
     try {
       const { stripeProduct, stripePrice } =
         await createStripeProduct(productData);
-      console.log("Product created:", stripeProduct);
-      console.log("Price created:", stripePrice);
+      console.log("Product created:", stripeProduct.id);
+      console.log("Price created:", stripePrice.id);
+      stripe_product_id = stripeProduct.id;
+      stripe_price_id = stripePrice.id;
     } catch (error: any) {
       setError("Failed to create product in Stripe");
       toast({
@@ -125,6 +129,8 @@ const StartupForm = () => {
       price,
       image: imageUrl,
       author: user.id,
+      stripe_product_id,
+      stripe_price_id,
     });
 
     if (insertError) {
