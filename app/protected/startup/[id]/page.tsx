@@ -75,9 +75,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
 
         <hr className="divider" />
 
-        <Suspense fallback={<Skeleton className="view_skeleton" />}>
-          {/* Render other components if necessary */}
-        </Suspense>
+        <Suspense fallback={<Skeleton className="view_skeleton" />}></Suspense>
       </section>
     </>
   );
