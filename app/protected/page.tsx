@@ -19,7 +19,28 @@ export default async function ProtectedPage({
   if (!user) {
     return redirect("/sign-in");
   }
+  //create cart for user
 
+  // Check if the user already has a cart
+  const { data: existingCart, error: cartError } = await supabase
+    .from("user_cart")
+    .select("id, products")
+    .eq("user_id", user.id)
+    .single();
+
+  // If no cart exists, create a new one
+  if (!existingCart) {
+    const { error: insertError } = await supabase.from("user_cart").insert([
+      {
+        user_id: user.id,
+        products: [],
+      },
+    ]);
+
+    if (insertError) {
+      console.error("Error creating cart:", insertError);
+    }
+  }
   const query = (await searchParams).query;
   const params = { search: query || null };
 
