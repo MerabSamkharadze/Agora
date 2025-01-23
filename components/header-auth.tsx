@@ -40,6 +40,7 @@ export default async function AuthButton() {
 
       <div className="flex gap-3 items-center">
         <ThemeSwitcher />
+
         <p className="text-black-300">{user.email}</p>
 
         <form action={signOutAction}>

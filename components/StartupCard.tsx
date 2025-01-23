@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { addToCartHandler } from "@/actions/addToCart";
+import AddToCartSvg from "@/public/AddToCart";
 
 export type Startup = {
   _id: number;
@@ -85,7 +86,7 @@ const StartupCard = ({ product }: { product: Startup }) => {
             }}
             className="text-sm py-2 px-4 bg-primary text-white rounded transition-transform duration-200 hover:bg-primary-dark focus:outline-none active:scale-95"
           >
-            Add to cart
+            <AddToCartSvg />
           </button>
         </form>
         <Button className="startup-card_btn" asChild>
