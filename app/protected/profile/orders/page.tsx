@@ -36,9 +36,8 @@ async function Orders() {
   }
   return (
     <>
-      <section className="pink_container">
+      <section className="pink_container !min-h-40">
         <h1 className="heading">Orders History</h1>
-        <p className="heading !max-w-3xl">You can see your orders here</p>
       </section>
       <section className="min-h-screen bg-gradient-to-tr py-12 from-primary ">
         <div className="container mx-auto px-4">
@@ -106,7 +105,7 @@ async function Orders() {
             <h2 className="text-center text-primary dark:text-primary-light text-4xl font-semibold">
               No Orders Yet
               <img
-                src="https://icons.veryicon.com/png/o/miscellaneous/template-3/no-order.png"
+                src="https://rsrc.easyeat.ai/mweb/no-orders2.webp"
                 alt="orders"
               />
             </h2>
