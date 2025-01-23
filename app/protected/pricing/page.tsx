@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import CheckoutForm from "@/components/CheckoutForm";
 
 export const metadata: Metadata = {
-  title: "Pricing",
+  title: "Membership Options",
 };
 
 export default async function IndexPage(props: {
@@ -12,111 +12,92 @@ export default async function IndexPage(props: {
   const params = await props.params;
   const locale = (await params?.locale) || "en";
   return (
-    <div className="max-w-[1100px] mx-auto px-14">
-      <div className="grid grid-cols-2 gap-16 my-20 ">
-        {/*  PREMIUM */}
-        <div className="px-12 py-10 shadow-lg shadow-purple-300 rounded-3xl bg-white">
-          <h2 className="font-semibold text-4xl mb-6 text-purple-700">
+    <div className="max-w-[1100px] mx-auto px-8">
+      <div className="grid grid-cols-2 gap-16 my-20">
+        {/* PREMIUM */}
+        <div className="px-10 py-12 shadow-lg shadow-primary/50 rounded-3xl bg-white border border-primary">
+          <h2 className="font-bold text-4xl mb-6 text-primary">
             Premium Membership
           </h2>
 
-          <ul className="flex flex-col gap-5 list-disc">
+          <ul className="flex flex-col gap-4 list-disc text-lg">
             <li>
-              <span className="font-semibold text-purple-950">
-                Exclusive Discounts:
-              </span>
-              <span>
-                Up to 20-30% off hotels, restaurants, spas, gyms, and select
-                events.
-              </span>
+              <span className="font-semibold text-primary">
+                Exclusive Offers:
+              </span>{" "}
+              Enjoy up to 40% off selected products and seasonal discounts.
             </li>
             <li>
-              <span className="font-semibold text-purple-950">
-                Member - Only Events:
-              </span>
-              <span>Invitations to exclusive events or experiences.</span>
-            </li>
-
-            <li>
-              <span className="font-semibold text-purple-950">
-                Monthly Freebies:
-              </span>
-              <span>
-                Access to free spa treatments, gym passes, or virtual events
-                (e.g., 1 free service/month).
-              </span>
-            </li>
-
-            <li>
-              <span className="font-semibold text-purple-950">
-                Room Upgrades:
-              </span>
-              <span>Free hotel room upgrades (subject to availability).</span>
+              <span className="font-semibold text-primary">
+                Early Access to Sales:
+              </span>{" "}
+              Get notified and shop exclusive deals before anyone else.
             </li>
             <li>
-              <span className="font-semibold text-purple-950">
-                Free Add-Ons:
-              </span>
-              <span>
-                Complimentary perks like late check-out or early check-in at
-                partnered hotels.
-              </span>
-            </li>
-
-            <li>
-              <span className="font-semibold text-purple-950">
-                VIP Support:
-              </span>
-              <span>
-                24/7 customer support with shorter response times (&lt;1 hour).
-              </span>
+              <span className="font-semibold text-primary">
+                Free Shipping Benefits:
+              </span>{" "}
+              Enjoy free shipping on all your orders, with no minimum spend.
             </li>
             <li>
-              <span className="font-semibold text-purple-950">
-                Personalized Recommendations:
-              </span>
-              <span>
-                Tailored suggestions based on booking history and preferences.
-              </span>
+              <span className="font-semibold text-primary">
+                Personalized Shopping Experience:
+              </span>{" "}
+              Receive product recommendations tailored to your shopping history.
             </li>
-
             <li>
-              <span className="font-semibold text-purple-950">
-                Concierge Service:
-              </span>
-              <span>
-                Dedicated assistance for planning and managing trips or
-                reservations.
-              </span>
+              <span className="font-semibold text-primary">
+                Premium Content Access:
+              </span>{" "}
+              Write and publish posts with premium editing tools and featured
+              visibility on the homepage.
+            </li>
+            <li>
+              <span className="font-semibold text-primary">
+                Priority Customer Support:
+              </span>{" "}
+              Access 24/7 support with faster response times for any queries.
+            </li>
+            <li>
+              <span className="font-semibold text-primary">
+                Exclusive Rewards:
+              </span>{" "}
+              Earn double reward points for every purchase.
+            </li>
+            <li>
+              <span className="font-semibold text-primary">
+                Monthly Giveaways:
+              </span>{" "}
+              Participate in premium member-only giveaways for exciting prizes.
             </li>
           </ul>
           <CheckoutForm uiMode="hosted" locale={locale} />
         </div>
         {/* FREE */}
-        <div className="px-12 py-10 rounded-3xl bg-white">
-          <h2 className="font-semibold text-4xl mb-6">Free Membership</h2>
-          <ul className="flex flex-col gap-5 list-disc">
+        <div className="px-10 py-12 rounded-3xl bg-white border border-gray-300">
+          <h2 className="font-bold text-4xl mb-6">Free Membership</h2>
+          <ul className="flex flex-col gap-4 list-disc text-lg">
             <li>
-              <span className="font-semibold">Standard Pricing: </span>
-              <span>Pay regular prices for bookings with no discounts.</span>
-            </li>
-
-            <li>
-              <span className="font-semibold">Limited Support: </span>
-              <span>
-                Standard customer support via chatbot or email (response time:
-                24-48 hours).
-              </span>
+              <span className="font-semibold">
+                Access to Standard Products:
+              </span>{" "}
+              Purchase items at regular pricing.
             </li>
             <li>
-              <span className="font-semibold">Basic Promotions: </span>
-              <span>Receive general offers or updates via email.</span>
+              <span className="font-semibold">Email Promotions:</span> Receive
+              occasional updates and general offers.
             </li>
             <li>
-              <span className="font-semibold">Limited Recommendations: </span>
-              <span>
-                Access to basic recommendations based on general preferences.
-              </span>
+              <span className="font-semibold">Standard Shipping:</span> Enjoy
+              regular shipping rates and timelines.
+            </li>
+            <li>
+              <span className="font-semibold">Basic Blog Access:</span> Write
+              and publish posts with limited visibility.
+            </li>
+            <li>
+              <span className="font-semibold">General Support:</span> Contact
+              support via email with a response time of 24-48 hours.
             </li>
           </ul>
         </div>

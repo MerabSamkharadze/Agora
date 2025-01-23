@@ -17,6 +17,9 @@ export default function CheckoutForm({
   const formAction = async (): Promise<void> => {
     setLoading(true);
 
+    // ფეიკი დატვირთვის იმიტაცია
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+
     const formData = new FormData();
     formData.append("uiMode", uiMode);
     formData.append("priceId", "price_1QkVqyGWhNFUQ6jQQoZ3DcwH");
@@ -33,14 +36,16 @@ export default function CheckoutForm({
   };
 
   return (
-    <>
-      <button
-        className="block bg-purple-800 hover:bg-purple-600 transition-all text-white rounded-full px-10 py-5 mt-10 text-center"
-        onClick={formAction}
-        disabled={loading}
-      >
-        Subscribe for $30/month
-      </button>
-    </>
+    <button
+      className={`block bg-primary transition-all duration-300 text-white rounded-full px-10 py-5 mt-10 text-center ${
+        loading
+          ? "opacity-50 cursor-not-allowed"
+          : "hover:bg-primary-dark hover:scale-105"
+      }`}
+      onClick={formAction}
+      disabled={loading}
+    >
+      {loading ? "Processing..." : "Subscribe for $30/month"}
+    </button>
   );
 }
