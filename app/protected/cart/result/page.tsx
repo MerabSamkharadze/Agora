@@ -40,10 +40,9 @@ export default async function ResultPage(props: {
 
   if (!userId) throw new Error("User is not authenticated.");
 
-  // პროდუქტების jsonb ფორმატში გარდაქმნა და შეკვეთების ცხრილში ჩაწერა
   const orderData = {
     user_id: userId,
-    products, // supabase ავტომატურად გარდაქმნის jsonb ფორმატში
+    products,
   };
 
   const { error: insertOrderError } = await supabase
@@ -65,9 +64,6 @@ export default async function ResultPage(props: {
     console.error("Error clearing the cart:", clearCartError);
     throw new Error("Failed to clear the cart.");
   }
-
-  // const paymentIntent =
-  //   checkoutSession.payment_intent as Stripe.PaymentIntent | null;
 
   return (
     <div className="flex items-center justify-center h-screen bg-gradient-to-br from-primary to-secondary">
