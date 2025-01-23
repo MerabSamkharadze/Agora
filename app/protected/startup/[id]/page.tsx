@@ -3,6 +3,8 @@ import { formatDate } from "@/lib/utils";
 import { createClient } from "@/utils/supabase/server";
 
 import { Skeleton } from "@/components/ui/skeleton";
+import { addToCartHandler } from "@/actions/addToCart";
+import AddToCartSvg from "@/public/AddToCart";
 
 export const experimental_ppr = true;
 
@@ -25,7 +27,6 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
 
   const supabase = await createClient();
 
-  // Fetch product data
   const { data: posts, error } = await supabase
     .from("products")
     .select("*")
@@ -71,6 +72,18 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
           <p className="text-lg font-semibold text-white bg-primary py-3 px-5 rounded-full shadow-md border-2 border-primary hover:bg-primary-100 hover:text-black transition-all duration-300">
             Price: ${product.price / 100}
           </p>
+          <form>
+            <button
+              type="submit"
+              formAction={async () => {
+                "use server";
+                addToCartHandler({ product });
+              }}
+              className="text-sm py-2 px-4 bg-primary text-white rounded transition-transform duration-200 hover:bg-primary-dark focus:outline-none active:scale-95"
+            >
+              <AddToCartSvg />
+            </button>
+          </form>
         </div>
 
         <hr className="divider" />
