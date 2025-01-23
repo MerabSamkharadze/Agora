@@ -2,6 +2,7 @@ import type { Stripe } from "stripe";
 import { createClient } from "@/utils/supabase/server";
 import { stripe } from "@/lib/stripe";
 import Link from "next/link";
+import { log } from "node:console";
 
 export default async function ResultPage(props: {
   searchParams: Promise<{ session_id: string }>;
@@ -39,13 +40,22 @@ export default async function ResultPage(props: {
 
   if (!userId) throw new Error("User is not authenticated.");
 
-  const orderInsertPromises = products?.map((product) => {
-    return supabase.from("orders").insert({
-      user_id: userId,
-      products,
-    });
-  });
+  // პროდუქტების jsonb ფორმატში გარდაქმნა და შეკვეთების ცხრილში ჩაწერა
+  const orderData = {
+    user_id: userId,
+    products, // supabase ავტომატურად გარდაქმნის jsonb ფორმატში
+  };
 
+  const { error: insertOrderError } = await supabase
+    .from("orders")
+    .insert(orderData);
+
+  if (insertOrderError) {
+    console.error("Error inserting order:", insertOrderError);
+    throw new Error("Failed to insert order.");
+  }
+
+  // კალათის გასუფთავება
   const { error: clearCartError } = await supabase
     .from("user_cart")
     .update({ products: [] })
@@ -56,10 +66,8 @@ export default async function ResultPage(props: {
     throw new Error("Failed to clear the cart.");
   }
 
-  const orderInsertResults = await Promise.all(orderInsertPromises);
-
-  const paymentIntent =
-    checkoutSession.payment_intent as Stripe.PaymentIntent | null;
+  // const paymentIntent =
+  //   checkoutSession.payment_intent as Stripe.PaymentIntent | null;
 
   return (
     <div className="flex items-center justify-center h-screen bg-gradient-to-br from-primary to-secondary">

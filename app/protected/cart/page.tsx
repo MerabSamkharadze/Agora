@@ -87,27 +87,27 @@ const CartPage = () => {
         {products.map((product: Product) => (
           <div
             key={product._id}
-            className="flex justify-between items-center bg-white shadow-md p-4 rounded-lg"
+            className="flex justify-between items-center bg-white shadow-lg p-4 rounded-xl hover:shadow-xl transition-shadow duration-300"
           >
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-6">
               <img
                 src={product.image}
                 alt={product.title}
-                className="w-20 h-20 object-cover rounded-lg"
+                className="w-24 h-24 object-cover rounded-lg border border-gray-200"
               />
               <div>
-                <h3 className="font-semibold text-lg text-gray-800">
+                <h3 className="font-semibold text-lg text-gray-900">
                   {product.title}
                 </h3>
                 <p className="text-sm text-gray-500">{product.description}</p>
-                <p className="text-lg font-semibold text-gray-900">
+                <p className="text-lg font-bold text-primary">
                   ${(product.price / 100).toFixed(2)}
                 </p>
               </div>
             </div>
             <button
               onClick={() => handleRemoveFromCart(product._id.toString())}
-              className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
+              className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-secondary-dark transition-transform duration-200 active:scale-95"
             >
               Remove
             </button>
@@ -115,9 +115,9 @@ const CartPage = () => {
         ))}
       </div>
 
-      <div className="flex justify-between items-center bg-gray-50 shadow-md p-6 rounded-lg mt-8">
+      <div className="flex justify-between items-center bg-gray-50 shadow-md p-6 rounded-xl mt-8">
         <h2 className="text-xl font-semibold text-gray-800">Total</h2>
-        <p className="text-2xl font-semibold text-gray-900">
+        <p className="text-2xl font-bold text-primary">
           ${totalPrice.toFixed(2)}
         </p>
       </div>
