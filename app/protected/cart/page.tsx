@@ -87,9 +87,9 @@ const CartPage = () => {
         {products.map((product: Product) => (
           <div
             key={product._id}
-            className="flex justify-between items-center bg-white shadow-lg p-4 rounded-xl hover:shadow-xl transition-shadow duration-300"
+            className="flex justify-between gap-10 items-center bg-white shadow-lg p-4 rounded-xl hover:shadow-xl transition-shadow duration-300"
           >
-            <div className="flex items-center space-x-6">
+            <div className="flex gap-12 items-center space-x-6">
               <img
                 src={product.image}
                 alt={product.title}

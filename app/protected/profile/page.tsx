@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import { StartupCardSkeleton } from "@/components/StartupCard";
 import Link from "next/link";
 import OrdersSvg from "@/public/svgs/Orders";
+import Ping from "@/components/Ping";
 
 const Page = async () => {
   const supabase = await createClient();
@@ -23,7 +24,6 @@ const Page = async () => {
               {user.user_metadata.name || user.email}
             </h3>
           </div>
-
           <Image
             src={
               user.user_metadata.avatar_url ||
@@ -33,8 +33,10 @@ const Page = async () => {
             width={220}
             height={220}
             className="profile_image"
-          />
-
+          />{" "}
+          <div className="absolute   ml-32">
+            <Ping />
+          </div>
           <p className="text-30-extrabold mt-7 text-center">
             @{user.email?.split("@")[0] || "Unknown"}
           </p>
@@ -43,7 +45,6 @@ const Page = async () => {
               ? "Verified ✅"
               : "Not verified ✖️"}
           </p>
-
           <p className="mt-2 text-center text-14-normal">
             Joined: {new Date(user.created_at).toLocaleString()}
           </p>
@@ -65,7 +66,7 @@ const Page = async () => {
               </span>
             </Link>
           </div>
-          <p className="text-30-bold">Your Startups</p>
+          <p className="text-30-bold">Your added products</p>
 
           <ul className="card_grid-sm">
             <Suspense fallback={<StartupCardSkeleton />}></Suspense>
