@@ -3,6 +3,8 @@ import { createClient } from "@/utils/supabase/server";
 import Image from "next/image";
 import { Suspense } from "react";
 import { StartupCardSkeleton } from "@/components/StartupCard";
+import Link from "next/link";
+import OrdersSvg from "@/public/svgs/Orders";
 
 const Page = async () => {
   const supabase = await createClient();
@@ -52,12 +54,21 @@ const Page = async () => {
         </div>
 
         <div className="flex-1 flex flex-col gap-5 lg:-mt-5">
+          <div className="relative">
+            <Link
+              className="absolute right-10 group"
+              href="/protected/profile/orders"
+            >
+              <OrdersSvg />
+              <span className="absolute bottom-12 left-1/2 transform -translate-x-1/2 px-2 py-1 text-sm text-white bg-black rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                Orders
+              </span>
+            </Link>
+          </div>
           <p className="text-30-bold">Your Startups</p>
+
           <ul className="card_grid-sm">
-            {/* Suspense can be used for lazy loading startup data */}
-            <Suspense fallback={<StartupCardSkeleton />}>
-              {/* UserStartups component */}
-            </Suspense>
+            <Suspense fallback={<StartupCardSkeleton />}></Suspense>
           </ul>
         </div>
       </section>
