@@ -100,7 +100,7 @@ const CartPage = () => {
                   {product.title}
                 </h3>
                 <p className="text-sm text-gray-500">{product.description}</p>
-                <p className="text-lg font-bold text-primary">
+                <p className="text-lg font-bold text-green-700">
                   ${(product.price / 100).toFixed(2)}
                 </p>
               </div>
