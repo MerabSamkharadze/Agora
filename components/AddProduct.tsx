@@ -35,7 +35,7 @@ export default function AddProduct() {
       price,
       category,
       image,
-      author: user.id, // აქ იწერება მომხმარებლის UUID
+      author: user.id,
     });
 
     if (insertError) {
