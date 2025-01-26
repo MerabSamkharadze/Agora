@@ -12,16 +12,14 @@ export async function POST(request: Request) {
       );
     }
 
-    // Nodemailer configuration
     const transporter = nodemailer.createTransport({
-      service: "gmail", // ან SMTP პროვაიდერი
+      service: "gmail",
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
     });
 
-    // Email content
     const mailOptions = {
       from: email,
       to: process.env.RECEIVER_EMAIL,
@@ -30,7 +28,6 @@ export async function POST(request: Request) {
       html: `<p><strong>Name:</strong> ${name}</p><p><strong>Email:</strong> ${email}</p><p><strong>Message:</strong> ${message}</p>`,
     };
 
-    // Send email
     await transporter.sendMail(mailOptions);
 
     return NextResponse.json(
