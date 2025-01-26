@@ -35,6 +35,12 @@ export default async function AuthButton() {
         >
           Profile
         </Link>
+        <Link
+          href="/protected/contact"
+          className="text-sm  text-primary hover:underline sm:text-base"
+        >
+          Contact
+        </Link>
         <Cart />
       </div>
 

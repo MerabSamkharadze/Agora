@@ -58,7 +58,7 @@ const ContactPage = () => {
         Contact Us
       </h2>
 
-      <p className="text-lg text-gray-700 ">
+      <p className="text-lg font-semibold text-gray-700 ">
         We'd love to hear from you! Please fill out the form below and we'll get
         back to you as soon as possible. Thank you! 🌟{" "}
       </p>
