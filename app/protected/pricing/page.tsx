@@ -73,7 +73,7 @@ export default async function IndexPage(props: {
           </ul>
           <CheckoutForm uiMode="hosted" locale={locale} />
         </div>
-        {/* FREE */}
+
         <div className="px-10 py-12 rounded-3xl bg-white border border-gray-300">
           <h2 className="font-bold text-4xl mb-6">Free Membership</h2>
           <ul className="flex flex-col gap-4 list-disc text-lg">

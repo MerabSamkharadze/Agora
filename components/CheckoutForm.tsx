@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { createCheckoutSession } from "../actions/stripe";
+import { Button } from "./ui/button";
 
 interface CheckoutFormProps {
   uiMode: "hosted";
@@ -35,8 +36,8 @@ export default function CheckoutForm({
   };
 
   return (
-    <button
-      className={`block bg-primary transition-all duration-300 text-white rounded-full px-10 py-5 mt-10 text-center ${
+    <Button
+      className={`startup-form_btn mt-3 ${
         loading
           ? "opacity-50 cursor-not-allowed"
           : "hover:bg-primary-dark hover:scale-105"
@@ -45,6 +46,6 @@ export default function CheckoutForm({
       disabled={loading}
     >
       {loading ? "Processing..." : "Subscribe for $30/month"}
-    </button>
+    </Button>
   );
 }

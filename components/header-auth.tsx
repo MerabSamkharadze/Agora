@@ -41,6 +41,12 @@ export default async function AuthButton() {
         >
           Contact
         </Link>
+        <Link
+          href="/protected/pricing"
+          className="text-sm  text-primary hover:underline sm:text-base"
+        >
+          Pricing
+        </Link>
         <Cart />
       </div>
 
