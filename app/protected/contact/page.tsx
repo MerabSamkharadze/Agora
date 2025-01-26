@@ -3,6 +3,8 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import GmailSvg from "@/public/svgs/GmailSvg";
+import Phonesvg from "@/public/svgs/Phonesvg";
 import { Send } from "lucide-react";
 import { useState } from "react";
 
@@ -52,33 +54,47 @@ const ContactPage = () => {
 
   return (
     <div className="max-w-4xl mx-auto mt-8 p-6 bg-white shadow-xl rounded-lg">
-      <h2 className="text-3xl font-bold text-gray-800 mb-6">Contact Us</h2>
+      <h2 className=" heading text-3xl font-bold text-gray-800 mb-6">
+        Contact Us
+      </h2>
 
-      <p className="text-lg text-gray-700">
+      <p className="text-lg text-gray-700 ">
         We'd love to hear from you! Please fill out the form below and we'll get
         back to you as soon as possible. Thank you! 🌟{" "}
       </p>
       <div className="mb-8">
-        <p className="text-lg text-gray-700">
-          For immediate inquiries, you can also reach us via:
+        <p className="text-xl font-semibold text-gray-800">
+          For immediate inquiries, feel free to reach out to us via:
         </p>
-        <ul className="mt-2 text-gray-600">
-          <li>
-            Email:{" "}
-            <a href="mailto:info@example.com" className="text-blue-500">
-              agorawebapp@gmail.com
-            </a>
+        <ul className="mt-4 space-y-3 text-gray-600">
+          <li className="flex items-center">
+            <GmailSvg />
+            <span className="ml-2">
+              Email:
+              <a
+                href="mailto:agorawebapp@gmail.com"
+                className=" ml-2  text-pink-600 hover:text-black-700 transition duration-300"
+              >
+                agorawebapp@gmail.com
+              </a>
+            </span>
           </li>
-          <li>
-            Phone:{" "}
-            <a href="tel:+1234567890" className="text-blue-500">
-              +995 598 99 99 99
-            </a>
+          <li className="flex items-center">
+            <Phonesvg />
+
+            <span className="ml-2">
+              Phone:
+              <a
+                href="tel:+995598999999"
+                className=" ml-2  text-pink-600 hover:text-black-700 transition duration-300"
+              >
+                +995 598 99 99 99
+              </a>
+            </span>
           </li>
         </ul>
       </div>
 
-      {/* Form Section */}
       <form onSubmit={handleSubmit}>
         <div className="grid gap-6 mb-6 sm:grid-cols-2">
           <div>
