@@ -2,138 +2,118 @@
 
 import { useState } from "react";
 
-const Contact = () => {
+const ContactPage = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     message: "",
   });
-  const [errors, setErrors] = useState<{ [key: string]: string }>({});
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    setErrors({ ...errors, [name]: "" }); // Clear errors on input
   };
 
-  const validate = () => {
-    const newErrors: { [key: string]: string } = {};
-    if (!formData.name.trim()) newErrors.name = "Name is required.";
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required.";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = "Invalid email address.";
-    }
-    if (!formData.message.trim()) newErrors.message = "Message is required.";
-    return newErrors;
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const validationErrors = validate();
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      return;
-    }
+    setIsLoading(true);
+    setSuccessMessage("");
 
     try {
-      // Example using EmailJS (you can replace with another service)
-      const response = await fetch("/api/sendEmail", {
+      const response = await fetch("/api/contact", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(formData),
       });
+
       if (response.ok) {
         setSuccessMessage("Your message has been sent successfully!");
         setFormData({ name: "", email: "", message: "" });
       } else {
-        setErrors({ form: "Failed to send message. Please try again later." });
+        setSuccessMessage("Something went wrong. Please try again.");
       }
     } catch (error) {
-      setErrors({ form: "An error occurred. Please try again." });
+      setSuccessMessage("An error occurred. Please try again.");
+      console.error("Error:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6 space-y-6">
-      <h1 className="text-3xl font-bold text-center">Contact Us</h1>
-      <div className="space-y-4">
-        <div className="text-lg">
-          <p>
-            Email:{" "}
-            <a
-              href="mailto:samkharadzemerab@gmail.com"
-              className="text-blue-600"
-            >
-              example@example.com
-            </a>
-          </p>
-          <p>
-            Phone:{" "}
-            <a href="tel:+123456789" className="text-blue-600">
-              +123 456 789
-            </a>
-          </p>
-        </div>
-      </div>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        {errors.form && <p className="text-red-500">{errors.form}</p>}
-        {successMessage && <p className="text-green-500">{successMessage}</p>}
-        <div>
-          <label className="block text-sm font-medium">Name</label>
+    <div className="max-w-md mx-auto mt-8 p-4 bg-white shadow-md rounded-lg">
+      <h2 className="text-xl font-bold mb-4">Contact Us</h2>
+      <form onSubmit={handleSubmit}>
+        <div className="mb-4">
+          <label
+            htmlFor="name"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Name
+          </label>
           <input
             type="text"
+            id="name"
             name="name"
             value={formData.name}
             onChange={handleChange}
-            className={`w-full border p-2 rounded ${
-              errors.name ? "border-red-500" : "border-gray-300"
-            }`}
+            required
+            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
           />
-          {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
         </div>
-        <div>
-          <label className="block text-sm font-medium">Email</label>
+        <div className="mb-4">
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Email
+          </label>
           <input
             type="email"
+            id="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
-            className={`w-full border p-2 rounded ${
-              errors.email ? "border-red-500" : "border-gray-300"
-            }`}
+            required
+            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
           />
-          {errors.email && (
-            <p className="text-red-500 text-sm">{errors.email}</p>
-          )}
         </div>
-        <div>
-          <label className="block text-sm font-medium">Message</label>
+        <div className="mb-4">
+          <label
+            htmlFor="message"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Message
+          </label>
           <textarea
+            id="message"
             name="message"
             value={formData.message}
             onChange={handleChange}
-            rows={5}
-            className={`w-full border p-2 rounded ${
-              errors.message ? "border-red-500" : "border-gray-300"
-            }`}
-          ></textarea>
-          {errors.message && (
-            <p className="text-red-500 text-sm">{errors.message}</p>
-          )}
+            required
+            rows={4}
+            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+          />
         </div>
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition"
+          disabled={isLoading}
+          className="w-full bg-blue-500 text-white font-medium py-2 px-4 rounded-md hover:bg-blue-600 disabled:opacity-50"
         >
-          Send Message
+          {isLoading ? "Sending..." : "Send Message"}
         </button>
+        {successMessage && (
+          <p className="mt-4 text-green-600">{successMessage}</p>
+        )}
       </form>
     </div>
   );
 };
 
-export default Contact;
+export default ContactPage;
