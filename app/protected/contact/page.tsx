@@ -1,5 +1,9 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Send } from "lucide-react";
 import { useState } from "react";
 
 const ContactPage = () => {
@@ -47,69 +51,101 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-8 p-4 bg-white shadow-md rounded-lg">
-      <h2 className="text-xl font-bold mb-4">Contact Us</h2>
+    <div className="max-w-4xl mx-auto mt-8 p-6 bg-white shadow-xl rounded-lg">
+      <h2 className="text-3xl font-bold text-gray-800 mb-6">Contact Us</h2>
+
+      <p className="text-lg text-gray-700">
+        We'd love to hear from you! Please fill out the form below and we'll get
+        back to you as soon as possible. Thank you! 🌟{" "}
+      </p>
+      <div className="mb-8">
+        <p className="text-lg text-gray-700">
+          For immediate inquiries, you can also reach us via:
+        </p>
+        <ul className="mt-2 text-gray-600">
+          <li>
+            Email:{" "}
+            <a href="mailto:info@example.com" className="text-blue-500">
+              agorawebapp@gmail.com
+            </a>
+          </li>
+          <li>
+            Phone:{" "}
+            <a href="tel:+1234567890" className="text-blue-500">
+              +995 598 99 99 99
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      {/* Form Section */}
       <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label
-            htmlFor="name"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Name
-          </label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-          />
+        <div className="grid gap-6 mb-6 sm:grid-cols-2">
+          <div>
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Name
+            </label>
+            <Input
+              type="text"
+              id="name"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+              className="mt-2 w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Your Email
+            </label>
+            <Input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              className="mt-2 w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            />
+          </div>
         </div>
-        <div className="mb-4">
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-          />
-        </div>
-        <div className="mb-4">
+
+        <div className="mb-6">
           <label
             htmlFor="message"
             className="block text-sm font-medium text-gray-700"
           >
             Message
           </label>
-          <textarea
+          <Textarea
             id="message"
             name="message"
             value={formData.message}
             onChange={handleChange}
             required
-            rows={4}
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+            rows={6}
+            className="mt-2 w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
           />
         </div>
-        <button
+
+        <Button
           type="submit"
+          className="startup-form_btn text-white"
           disabled={isLoading}
-          className="w-full bg-blue-500 text-white font-medium py-2 px-4 rounded-md hover:bg-blue-600 disabled:opacity-50"
         >
           {isLoading ? "Sending..." : "Send Message"}
-        </button>
+          <Send className="size-6 ml-2" />
+        </Button>
+
         {successMessage && (
-          <p className="mt-4 text-green-600">{successMessage}</p>
+          <p className="mt-4 text-green-600 text-center">{successMessage}</p>
         )}
       </form>
     </div>
