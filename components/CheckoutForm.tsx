@@ -17,7 +17,6 @@ export default function CheckoutForm({
   const formAction = async (): Promise<void> => {
     setLoading(true);
 
-    // ფეიკი დატვირთვის იმიტაცია
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
     const formData = new FormData();

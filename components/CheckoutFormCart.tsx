@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { createCheckoutSession } from "@/actions/stripe";
 import { Product } from "@/app/protected/startup/[id]/page";
+import { Button } from "./ui/button";
 
 interface CheckoutFormProps {
   uiMode: "hosted";
@@ -50,13 +51,13 @@ export default function CheckoutFormCart({
 
   return (
     <>
-      <button
-        className="px-8 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+      <Button
+        className="startup-form_btn text-white"
         onClick={formAction}
         disabled={loading}
       >
         {loading ? "Processing..." : "Checkout"}
-      </button>
+      </Button>
     </>
   );
 }
