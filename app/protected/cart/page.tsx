@@ -5,6 +5,7 @@ import { getCartProducts } from "@/actions/getCartProducts";
 import { removeFromCartHandler } from "@/actions/removeFromCart";
 import { Product } from "../startup/[id]/page";
 import CheckoutFormCart from "@/components/CheckoutFormCart";
+import Link from "next/link";
 
 const CartPage = () => {
   const locale = "en";
@@ -68,14 +69,14 @@ const CartPage = () => {
   if (products.length === 0) {
     return (
       <div className="text-center">
-        <p className="text-lg font-semibold mt-4 text-gray-500">
-          Your cart is empty
-        </p>
         <img
-          src="https://cdn-icons-png.flaticon.com/512/11329/11329060.png"
+          src="https://adasglobal.com/img/empty-cart.png"
           alt="Your cart is empty"
           className="mx-auto mb-4 w-2/3"
         />
+        <Link className="startup-card_btn" href="/protected">
+          Go to Shopping
+        </Link>
       </div>
     );
   }
