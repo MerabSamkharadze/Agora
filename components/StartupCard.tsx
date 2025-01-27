@@ -25,6 +25,7 @@ const StartupCard = ({ product }: { product: Startup }) => {
   const {
     _createdAt,
     views,
+    price,
     author,
     title,
     category,
@@ -47,9 +48,6 @@ const StartupCard = ({ product }: { product: Startup }) => {
 
       <div className="flex-between mt-5 gap-5">
         <div className="flex-1">
-          <Link href={`/user/#`}>
-            <p className="text-16-medium line-clamp-1">{author}</p>
-          </Link>
           <Link href={`protected/startup/${_id}`}>
             <h3 className="text-26-semibold line-clamp-1">{title}</h3>
           </Link>
@@ -72,7 +70,9 @@ const StartupCard = ({ product }: { product: Startup }) => {
 
         <img src={image} alt="placeholder" className="startup-card_img" />
       </Link>
-
+      <div className="text-xl text-center font-semibold text-white bg-primary py-1 px-2 mt-2 rounded-full shadow-md border-2 border-primary  transition-all duration-300">
+        $ {price / 100}
+      </div>
       <div className="flex-between gap-3 mt-5">
         <Link href={`/?query=${category?.toLowerCase()}`}>
           <p className="text-16-medium">{category}</p>
@@ -89,6 +89,7 @@ const StartupCard = ({ product }: { product: Startup }) => {
             <AddToCartSvg />
           </button>
         </form>
+
         <Button className="startup-card_btn" asChild>
           <Link href={`protected/startup/${_id}`}>Details</Link>
         </Button>
