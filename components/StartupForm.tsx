@@ -146,7 +146,6 @@ const StartupForm = () => {
         description: "Your pitch has been successfully submitted!",
       });
 
-      // Clear fields
       setTitle("");
       setDescription("");
       setCategory("");
@@ -217,7 +216,7 @@ const StartupForm = () => {
           name="category"
           className="startup-form_input"
           required
-          placeholder="Startup Category (Tech, Health, Education...)"
+          placeholder="Product Category "
           value={category}
           onChange={(e) => setCategory(e.target.value)}
         />

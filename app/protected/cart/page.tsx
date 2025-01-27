@@ -83,7 +83,7 @@ const CartPage = () => {
 
   return (
     <div className="space-y-8 max-w-5xl mx-auto py-8">
-      <h1 className="text-3xl font-bold text-gray-800 mb-8">Your Cart</h1>
+      <h1 className="text-3xl font-bold text-primary mb-8">Your Cart</h1>
       <div className="space-y-6">
         {products.map((product: Product) => (
           <div

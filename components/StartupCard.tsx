@@ -70,7 +70,7 @@ const StartupCard = ({ product }: { product: Startup }) => {
 
         <img src={image} alt="placeholder" className="startup-card_img" />
       </Link>
-      <div className="text-xl text-center font-semibold text-white bg-primary py-1 px-2 mt-2 rounded-full shadow-md border-2 border-primary  transition-all duration-300">
+      <div className="text-xl text-center font-semibold text-white bg-black py-1 px-2 mt-2 rounded-full shadow-md border-2 border-primary  transition-all duration-300">
         $ {price / 100}
       </div>
       <div className="flex-between gap-3 mt-5">
@@ -84,7 +84,7 @@ const StartupCard = ({ product }: { product: Startup }) => {
               "use server";
               addToCartHandler({ product });
             }}
-            className="text-sm py-2 px-4 bg-primary text-white rounded transition-transform duration-200 hover:bg-primary-dark focus:outline-none active:scale-95"
+            className="text-sm py-2 px-6 bg-primary text-white rounded transition-transform duration-200 hover:bg-primary-dark focus:outline-none active:scale-95"
           >
             <AddToCartSvg />
           </button>

@@ -100,7 +100,7 @@ const ContactPage = () => {
           <div>
             <label
               htmlFor="name"
-              className="block text-sm font-medium text-gray-700"
+              className="startup-form_label block text-sm font-medium text-gray-700"
             >
               Name
             </label>
@@ -111,13 +111,13 @@ const ContactPage = () => {
               value={formData.name}
               onChange={handleChange}
               required
-              className="mt-2 w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              className="startup-form_input mt-2 w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
             />
           </div>
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
+              className="startup-form_label block text-sm font-medium text-gray-700"
             >
               Your Email
             </label>
@@ -128,7 +128,7 @@ const ContactPage = () => {
               value={formData.email}
               onChange={handleChange}
               required
-              className="mt-2 w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              className="startup-form_input mt-2 w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
             />
           </div>
         </div>
@@ -136,7 +136,7 @@ const ContactPage = () => {
         <div className="mb-6">
           <label
             htmlFor="message"
-            className="block text-sm font-medium text-gray-700"
+            className=" startup-form_label block text-sm font-medium text-gray-700"
           >
             Message
           </label>
@@ -147,7 +147,7 @@ const ContactPage = () => {
             onChange={handleChange}
             required
             rows={6}
-            className="mt-2 w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            className="startup-form_textarea mt-2 w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
           />
         </div>
 

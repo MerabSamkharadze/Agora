@@ -3,13 +3,12 @@ export default async function Home() {
     <>
       <section className="pink_container">
         <h1 className="heading">
-          Pitch Your Startup, <br />
-          Connect With Entrepreneurs
+          Buy or Sell Products, <br />
+          Connect With New Customers
         </h1>
 
         <p className="sub-heading !max-w-3xl">
-          Submit Ideas, Vote on Pitches, and Get Noticed in Virtual
-          Competitions.
+          Submit Ideas, Write Blogs, and Discuss Issues That Interest You.
         </p>
       </section>
     </>

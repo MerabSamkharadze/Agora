@@ -112,7 +112,7 @@
   }
 
   .tag {
-    @apply bg-secondary px-6 py-3  font-bold rounded-sm uppercase relative tag-tri;
+    @apply bg-secondary px-6 py-3  font-bold rounded-sm text-black uppercase relative tag-tri;
   }
 
   .heading {
@@ -180,11 +180,11 @@
 
   /* searchform */
   .search-form {
-    @apply max-w-3xl w-full min-h-[80px] bg-white border-[5px] border-black rounded-[80px] text-[24px] mt-8 px-5 flex flex-row items-center gap-5;
+    @apply max-w-3xl w-full min-h-[80px] bg-background border-[5px] border-black rounded-[80px] text-[24px] mt-8 px-5 flex flex-row items-center gap-5;
   }
 
   .search-input {
-    @apply flex-1 font-bold placeholder:font-semibold placeholder:text-black-100 w-full h-auto outline-none;
+    @apply flex-1 font-bold placeholder:font-semibold bg-background w-full h-auto outline-none;
   }
 
   .search-btn {
@@ -196,8 +196,8 @@
     @apply bg-white border-[5px] border-black py-6 px-5 rounded-[22px] shadow-200 hover:border-primary transition-all duration-500 hover:shadow-300 hover:bg-primary-100;
   }
 
-  .startup-card_date {
-    @apply font-medium text-[16px] bg-primary-100 px-4 py-2 rounded-full group-hover:bg-white-100;
+  .startup_card_date {
+    @apply font-medium text-[16px] text-black-100 bg-primary-100 px-4 py-2 rounded-full group-hover:bg-white-100;
   }
 
   .startup-card_desc {
@@ -218,19 +218,19 @@
 
   /* startupform */
   .startup-form {
-    @apply w-5/6 mx-auto bg-white my-10 space-y-8 px-6;
+    @apply w-5/6 mx-auto bg-background my-10 space-y-8 px-6;
   }
 
   .startup-form_label {
-    @apply font-bold text-[18px] text-black uppercase;
+    @apply font-bold text-[18px] text-primary uppercase;
   }
 
   .startup-form_input {
-    @apply border-[3px] border-black px-5 py-7 text-[18px] text-black font-semibold rounded-full mt-3 placeholder:text-black-300 !important;
+    @apply border-[3px] border-primary px-5 py-7 text-[18px] text-primary font-semibold rounded-full mt-3 placeholder:text-black-300 !important;
   }
 
   .startup-form_textarea {
-    @apply border-[3px] border-black p-5 text-[18px] text-black font-semibold rounded-[20px] mt-3 placeholder:text-black-300 !important;
+    @apply border-[3px] border-primary p-5 text-[18px] text-primary font-semibold rounded-[20px] mt-3 placeholder:text-black-300 !important;
   }
 
   .startup-form_error {

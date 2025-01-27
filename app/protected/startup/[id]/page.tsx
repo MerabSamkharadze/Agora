@@ -64,8 +64,8 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
             <p className="views-tag">Views: {product.views}</p>
           </div>
 
-          <h3 className="text-30-bold">Product Details</h3>
-          <article className="prose max-w-4xl font-work-sans break-all">
+          <h3 className="text-30-bold !text-primary">Product Details</h3>
+          <article className="prose max-w-4xl font-work-sans text-primary break-all">
             {product.description}
           </article>
 
