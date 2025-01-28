@@ -1,11 +1,12 @@
+"use client";
 import { cn, formatDate } from "@/lib/utils";
 import { EyeIcon } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { addToCartHandler } from "@/actions/addToCart";
 import AddToCartSvg from "@/public/AddToCart";
+import { useState } from "react";
 
 export type Startup = {
   _id: number;
@@ -22,73 +23,101 @@ export type Startup = {
 };
 
 const StartupCard = ({ product }: { product: Startup }) => {
-  const {
-    _createdAt,
-    views,
-    price,
-    author,
-    title,
-    category,
-    _id,
-    image,
-    description,
-    stripe_price_id,
-    stripe_product_id,
-  } = product;
+  const [isLoading, setIsLoading] = useState(false);
+  const { _createdAt, views, price, title, category, _id, image, description } =
+    product;
+
+  const addToCart = async (product: Startup) => {
+    try {
+      const response = await fetch("/api/addToCart", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ product }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to add product to cart");
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      return { success: false, message: "Something went wrong" };
+    }
+  };
+
+  const handleAddToCart = async (product: Startup) => {
+    setIsLoading(true);
+    const result = await addToCart(product);
+    setIsLoading(false);
+
+    if (!result.success) {
+      alert(result.message);
+    } else {
+      alert("Product added to cart successfully!");
+    }
+  };
 
   return (
     <li className="startup-card group">
       <div className="flex-between">
-        <p className="startup_card_date">{formatDate(_createdAt)}</p>
-        <div className="flex gap-1.5">
-          <EyeIcon className="size-6 text-primary" />
-          <span className="text-16-medium">{views}</span>
+        <p className="text-xs font-medium text-gray-500">
+          {formatDate(_createdAt)}
+        </p>
+        <div className="flex items-center gap-1.5">
+          <EyeIcon className="h-4 w-4 text-primary" />
+          <span className="text-sm font-medium">{views}</span>
         </div>
       </div>
 
       <div className="flex-between mt-5 gap-5">
         <div className="flex-1">
           <Link href={`protected/startup/${_id}`}>
-            <h3 className="text-26-semibold line-clamp-1">{title}</h3>
+            <h3 className="text-lg font-semibold line-clamp-1">{title}</h3>
           </Link>
         </div>
-        <Link href={`#`}>
-          <Image
-            src={
-              "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/480px-User_icon_2.svg.png"
-            }
-            alt={"product"}
-            width={48}
-            height={48}
-            className="rounded-full"
-          />
-        </Link>
+        <Image
+          src={
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/480px-User_icon_2.svg.png"
+          }
+          alt={"product"}
+          width={48}
+          height={48}
+          className="rounded-full"
+        />
       </div>
 
       <Link href={`/startup/${_id}`}>
         <p className="startup-card_desc">{description}</p>
-
         <img src={image} alt="placeholder" className="startup-card_img" />
       </Link>
-      <div className="text-xl text-center font-semibold text-white bg-black py-1 px-2 mt-2 rounded-full shadow-md border-2 border-primary  transition-all duration-300">
+
+      <div className="text-xl text-center font-semibold text-white bg-black py-1 px-2 mt-2 rounded-full shadow-md border-2 border-primary transition-all duration-300">
         $ {price / 100}
       </div>
+
       <div className="flex-between gap-3 mt-5">
         <Link href={`/?query=${category?.toLowerCase()}`}>
           <p className="text-16-medium">{category}</p>
         </Link>
-        <form>
-          <button
-            type="submit"
-            formAction={async () => {
-              "use server";
-              addToCartHandler({ product });
-            }}
-            className="text-sm py-2 px-6 bg-primary text-white rounded transition-transform duration-200 hover:bg-primary-dark focus:outline-none active:scale-95"
-          >
-            <AddToCartSvg />
-          </button>
-        </form>
+
+        <button
+          onClick={() => handleAddToCart(product)}
+          disabled={isLoading}
+          className={cn(
+            "text-sm py-2 px-6 bg-primary text-white rounded transition-transform duration-200",
+            {
+              "opacity-50 cursor-not-allowed": isLoading,
+              "hover:bg-primary-dark focus:outline-none active:scale-95":
+                !isLoading,
+            }
+          )}
+        >
+          {isLoading ? "Adding..." : <AddToCartSvg />}
+        </button>
 
         <Button className="startup-card_btn" asChild>
           <Link href={`protected/startup/${_id}`}>Details</Link>
@@ -101,8 +130,8 @@ const StartupCard = ({ product }: { product: Startup }) => {
 export const StartupCardSkeleton = () => (
   <>
     {[0, 1, 2, 3, 4].map((index: number) => (
-      <li key={cn("skeleton", index)}>
-        <Skeleton className="startup-card_skeleton" />
+      <li key={index}>
+        <Skeleton className="w-full h-48 bg-gray-300 rounded-md" />
       </li>
     ))}
   </>
