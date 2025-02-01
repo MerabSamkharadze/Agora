@@ -10,6 +10,7 @@ const fetchProducts = async (page = 1, limit = 10, search = "") => {
   const apiUrl = process.env.VERCEL_URL
     ? `https://${process.env.VERCEL_URL}/api/products?${params.toString()}`
     : `http://localhost:3000/api/products?${params.toString()}`;
+  console.log(apiUrl);
 
   const response = await fetch(apiUrl);
 

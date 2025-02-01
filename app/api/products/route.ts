@@ -13,11 +13,9 @@ export async function GET(request: Request) {
     query = query.ilike("title", `%${searchQuery}%`);
   }
 
-  // აიღეთ პროდუქტების ჯამური რაოდენობა
-  const { data: allProducts, error: allError } = await query.range(0, 1000000); // შეზღუდვის გარეშე
+  const { data: allProducts, error: allError } = await query.range(0, 1000000);
   const total = allProducts ? allProducts.length : 0;
 
-  // აიღეთ გვერდის მიხედვით პროდუქტები
   query = query.range((page - 1) * limit, page * limit - 1);
 
   const { data, error } = await query;
