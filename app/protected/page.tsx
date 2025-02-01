@@ -1,19 +1,19 @@
 import { createClient } from "@/utils/supabase/server";
-import { redirect } from "next/navigation";
 import fetchProducts from "@/lib/fetchProducts";
 
 import SearchForm from "@/components/SearchForm";
 import StartupCard, { Startup } from "@/components/StartupCard";
+import Pagination from "@/components/Pagination"; // იმპორტი კლაიენტური კომპონენტიდან
+import { redirect } from "next/navigation";
 
 export default async function ProtectedPage({
   searchParams,
 }: {
-  searchParams: Promise<{ query?: string }>;
+  searchParams: { query?: string; page?: string };
 }) {
-  const query = (await searchParams).query;
-  console.log(query);
-  // const params = { search: query || null };
-  // console.log(params);
+  const query = (await searchParams.query) || "";
+  const page = searchParams.page ? parseInt(searchParams.page, 10) : 1;
+  const limit = 3;
 
   const supabase = await createClient();
 
@@ -40,7 +40,9 @@ export default async function ProtectedPage({
     ]);
   }
 
-  const products = await fetchProducts(query);
+  const { products, total } = await fetchProducts(page, limit, query);
+
+  const totalPages = Math.ceil(total / limit);
 
   return (
     <>
@@ -67,9 +69,12 @@ export default async function ProtectedPage({
               <StartupCard key={product._id} product={product} />
             ))
           ) : (
-            <p className="no-results">No startups found</p>
+            <p className="no-results">No Products found</p>
           )}
         </ul>
+
+        {/* Pagination */}
+        <Pagination totalPages={totalPages} currentPage={page} query={query} />
       </section>
     </>
   );

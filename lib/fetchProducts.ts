@@ -1,35 +1,26 @@
-import { createClient } from "@/utils/supabase/server";
-type Product = {
-  _id: number;
-  title: string;
-  description: string;
-  price: number;
-  category: string;
-  author: string;
-  _createdAt: string;
-  image: string;
-  views: string;
-  stripe_price_id: string;
-  stripe_product_id?: string;
-};
+const fetchProducts = async (page = 1, limit = 10, search = "") => {
+  const params = new URLSearchParams({
+    page: page.toString(),
+    limit: limit.toString(),
+  });
 
-const fetchProducts = async (search?: string): Promise<Product[]> => {
-  const supabase = await createClient();
-
-  let query = supabase.from("products").select("*");
-
-  if (search) {
-    query = query.ilike("title", `%${search}%`);
+  if (search.trim()) {
+    params.append("search", search);
   }
 
-  const { data, error } = await query;
+  const apiUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/products?${params.toString()}`;
 
-  if (error) {
-    console.error("Error fetching products:", error.message);
-    return [];
+  const response = await fetch(apiUrl);
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch products: ${response.statusText}`);
   }
 
-  return data || [];
-};
+  const data = await response.json();
 
+  return {
+    products: data.products,
+    total: data.total,
+  };
+};
 export default fetchProducts;
