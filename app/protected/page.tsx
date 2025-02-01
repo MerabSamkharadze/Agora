@@ -12,8 +12,7 @@ export default async function ProtectedPage(props: {
   const searchParams = await props.searchParams;
   const query = (await searchParams.query) || "";
   const page = searchParams.page ? parseInt(searchParams.page, 10) : 1;
-  const limit = 3;
-
+  const limit = 6;
   const supabase = await createClient();
 
   const {
@@ -59,7 +58,7 @@ export default async function ProtectedPage(props: {
 
       <section className="section_container">
         <p className="text-30-semibold">
-          {query ? `Search results for "${query}"` : "All Startups"}
+          {query ? `Search results for "${query}"` : "All Products"}
         </p>
 
         <ul className="mt-7 card_grid">

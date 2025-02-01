@@ -25,15 +25,6 @@ const Pagination = ({
 
   return (
     <div className="pagination mt-10 flex gap-4">
-      {currentPage > 1 && (
-        <button
-          onClick={() => handlePageChange(currentPage - 1)}
-          className="pagination-button"
-        >
-          Previous
-        </button>
-      )}
-
       {Array.from({ length: totalPages }, (_, index) => {
         const pageNumber = index + 1;
         return (
@@ -46,15 +37,6 @@ const Pagination = ({
           </button>
         );
       })}
-
-      {currentPage < totalPages && (
-        <button
-          onClick={() => handlePageChange(currentPage + 1)}
-          className="pagination-button"
-        >
-          Next
-        </button>
-      )}
     </div>
   );
 };

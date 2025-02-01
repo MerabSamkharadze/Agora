@@ -41,9 +41,9 @@ const StartupCard = ({ product }: { product: Startup }) => {
   };
 
   return (
-    <li className="startup-card group">
+    <li className="startup-card ">
       <div className="flex-between">
-        <p className="text-xs font-medium text-gray-500">
+        <p className="text-xs startup_card_date font-medium text-gray-500">
           {formatDate(_createdAt)}
         </p>
         <div className="flex items-center gap-1.5">
@@ -55,7 +55,9 @@ const StartupCard = ({ product }: { product: Startup }) => {
       <div className="flex-between mt-5 gap-5">
         <div className="flex-1">
           <Link href={`protected/startup/${_id}`}>
-            <h3 className="text-lg font-semibold line-clamp-1">{title}</h3>
+            <h3 className="!text-lg !font-semibold  startup-card_desc">
+              {title}
+            </h3>
           </Link>
         </div>
         <Image
@@ -80,7 +82,7 @@ const StartupCard = ({ product }: { product: Startup }) => {
 
       <div className="flex-between gap-3 mt-5">
         <Link href={`/?query=${category?.toLowerCase()}`}>
-          <p className="text-16-medium">{category}</p>
+          <p className="text-16-medium startup-card_desc">{category}</p>
         </Link>
 
         <button
