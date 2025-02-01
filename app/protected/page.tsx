@@ -12,7 +12,7 @@ export default async function ProtectedPage(props: {
   const searchParams = await props.searchParams;
   const query = (await searchParams.query) || "";
   const page = searchParams.page ? parseInt(searchParams.page, 10) : 1;
-  const limit = 6;
+  const limit = 9;
   const supabase = await createClient();
 
   const {
