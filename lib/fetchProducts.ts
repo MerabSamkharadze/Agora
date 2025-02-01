@@ -8,7 +8,7 @@ const fetchProducts = async (page = 1, limit = 10, search = "") => {
     params.append("search", search);
   }
   const apiUrl = process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}/api/products?${params.toString()}`
+    ? `https://agora-vert.vercel.app/api/products?${params.toString()}`
     : `http://localhost:3000/api/products?${params.toString()}`;
   console.log(apiUrl);
 
