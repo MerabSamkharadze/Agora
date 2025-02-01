@@ -13,7 +13,7 @@ export default async function ProtectedPage({
 }) {
   const query = (await searchParams.query) || "";
   const page = searchParams.page ? parseInt(searchParams.page, 10) : 1;
-  const limit = 3;
+  const limit = 6;
 
   const supabase = await createClient();
 
