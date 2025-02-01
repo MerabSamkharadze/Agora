@@ -3,17 +3,16 @@ import fetchProducts from "@/lib/fetchProducts";
 
 import SearchForm from "@/components/SearchForm";
 import StartupCard, { Startup } from "@/components/StartupCard";
-import Pagination from "@/components/Pagination"; // იმპორტი კლაიენტური კომპონენტიდან
+import Pagination from "@/components/Pagination";
 import { redirect } from "next/navigation";
 
-export default async function ProtectedPage({
-  searchParams,
-}: {
-  searchParams: { query?: string; page?: string };
+export default async function ProtectedPage(props: {
+  searchParams: Promise<{ query?: string; page?: string }>;
 }) {
+  const searchParams = await props.searchParams;
   const query = (await searchParams.query) || "";
   const page = searchParams.page ? parseInt(searchParams.page, 10) : 1;
-  const limit = 6;
+  const limit = 3;
 
   const supabase = await createClient();
 
@@ -73,7 +72,6 @@ export default async function ProtectedPage({
           )}
         </ul>
 
-        {/* Pagination */}
         <Pagination totalPages={totalPages} currentPage={page} query={query} />
       </section>
     </>

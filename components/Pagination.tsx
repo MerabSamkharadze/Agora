@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 const Pagination = ({
   totalPages,
@@ -12,9 +13,14 @@ const Pagination = ({
   query: string;
 }) => {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const handlePageChange = (newPage: number) => {
-    router.push(`?query=${query}&page=${newPage}`);
+    const newQueryParams = new URLSearchParams(searchParams.toString());
+    newQueryParams.set("query", query);
+    newQueryParams.set("page", newPage.toString());
+
+    router.push(`?${newQueryParams.toString()}`, { scroll: false });
   };
 
   return (
