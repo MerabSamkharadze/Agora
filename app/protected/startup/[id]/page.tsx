@@ -5,8 +5,7 @@ import { createClient } from "@/utils/supabase/server";
 import { Skeleton } from "@/components/ui/skeleton";
 import { addToCartHandler } from "@/actions/addToCart";
 import AddToCartSvg from "@/public/AddToCart";
-
-export const experimental_ppr = true;
+import addToCart from "@/lib/addToCart";
 
 export type Product = {
   _id: number;
@@ -20,6 +19,9 @@ export type Product = {
   views: string;
   stripe_price_id: string;
   stripe_product_id?: string;
+};
+const handleAddToCart = async (product: Product) => {
+  const result = await addToCart(product);
 };
 
 const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
@@ -79,9 +81,10 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
                 "use server";
                 addToCartHandler({ product });
               }}
-              className="text-sm py-2 px-4 bg-primary text-white rounded transition-transform duration-200 hover:bg-primary-dark focus:outline-none active:scale-95"
+              className="text-sm py-2 px-4 bg-primary text-white rounded transition-transform duration-200 hover:bg-primary-dark focus:outline-none active:scale-90 active:shadow-lg active:ring-2 active:ring-primary/50 flex items-center gap-2"
             >
               <AddToCartSvg />
+              <span className="font-semibold">Add to Cart</span>
             </button>
           </form>
         </div>

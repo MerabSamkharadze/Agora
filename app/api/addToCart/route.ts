@@ -4,7 +4,6 @@ import { Product } from "@/app/protected/startup/[id]/page";
 
 export async function POST(request: Request) {
   try {
-    // მიიღეთ მონაცემები Body-დან
     const body = await request.json();
     const { product }: { product: Product } = body;
 
@@ -15,10 +14,8 @@ export async function POST(request: Request) {
       );
     }
 
-    // გამოიძახეთ addToCartHandler ფუნქცია
     const result = await addToCartHandler({ product });
 
-    // დააბრუნეთ პასუხი
     return NextResponse.json(result);
   } catch (error) {
     console.error("Error in addToCart API:", error);
