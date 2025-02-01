@@ -5,7 +5,6 @@ import { createClient } from "@/utils/supabase/server";
 import { Skeleton } from "@/components/ui/skeleton";
 import { addToCartHandler } from "@/actions/addToCart";
 import AddToCartSvg from "@/public/AddToCart";
-import addToCart from "@/lib/addToCart";
 
 export type Product = {
   _id: number;
@@ -19,9 +18,6 @@ export type Product = {
   views: string;
   stripe_price_id: string;
   stripe_product_id?: string;
-};
-const handleAddToCart = async (product: Product) => {
-  const result = await addToCart(product);
 };
 
 const Page = async ({ params }: { params: Promise<{ id: string }> }) => {

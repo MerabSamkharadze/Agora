@@ -10,6 +10,11 @@ export default async function ProtectedPage({
 }: {
   searchParams: Promise<{ query?: string }>;
 }) {
+  const query = (await searchParams).query;
+  console.log(query);
+  // const params = { search: query || null };
+  // console.log(params);
+
   const supabase = await createClient();
 
   const {
@@ -19,32 +24,24 @@ export default async function ProtectedPage({
   if (!user) {
     return redirect("/sign-in");
   }
-  //create cart for user
 
-  // Check if the user already has a cart
-  const { data: existingCart, error: cartError } = await supabase
+  const { data: existingCart } = await supabase
     .from("user_cart")
     .select("id, products")
     .eq("user_id", user.id)
     .single();
 
-  // If no cart exists, create a new one
   if (!existingCart) {
-    const { error: insertError } = await supabase.from("user_cart").insert([
+    await supabase.from("user_cart").insert([
       {
         user_id: user.id,
         products: [],
       },
     ]);
-
-    if (insertError) {
-      console.error("Error creating cart:", insertError);
-    }
   }
-  const query = (await searchParams).query;
-  const params = { search: query || null };
 
-  const posts = await fetchProducts();
+  const products = await fetchProducts(query);
+
   return (
     <>
       <section className="pink_container">
@@ -65,9 +62,9 @@ export default async function ProtectedPage({
         </p>
 
         <ul className="mt-7 card_grid">
-          {posts?.length > 0 ? (
-            posts.map((post: Startup) => (
-              <StartupCard key={post?._id} product={post} />
+          {products.length > 0 ? (
+            products.map((product: Startup) => (
+              <StartupCard key={product._id} product={product} />
             ))
           ) : (
             <p className="no-results">No startups found</p>
