@@ -22,7 +22,7 @@ export default function AddPostPage() {
     }
 
     try {
-      const response = await fetch("/api/addpost", {
+      const response = await fetch("/api/addblog", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

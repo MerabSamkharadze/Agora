@@ -1,33 +1,29 @@
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@/utils/supabase/server";
 import { NextResponse } from "next/server";
 
-export async function DELETE(
+export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
-  // ეს ასინქრონულია, ამიტომ ველი
-  const { id } = await params; // await params
-
-  const supabase = createClient();
+  // Ensure `params` is awaited before destructuring
+  const { id } = await context.params; // Wait for params to resolve
+  const supabase = await createClient();
 
   try {
-    // პოსტის წაშლა Supabase-ისგან
-    const { error } = await supabase.from("posts").delete().eq("id", id);
+    const { data, error } = await supabase
+      .from("posts")
+      .select()
+      .eq("id", id)
+      .single();
 
-    if (error) {
-      return NextResponse.json(
-        { message: "Error deleting post" },
-        { status: 400 }
-      );
+    if (error || !data) {
+      return NextResponse.json({ message: "Post not found." }, { status: 404 });
     }
 
+    return NextResponse.json(data, { status: 200 });
+  } catch (error: any) {
     return NextResponse.json(
-      { message: "Post deleted successfully" },
-      { status: 200 }
-    );
-  } catch (error) {
-    return NextResponse.json(
-      { message: "Error deleting post" },
+      { message: error.message || "Something went wrong." },
       { status: 500 }
     );
   }

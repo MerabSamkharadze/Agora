@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
-import { createClient } from "@/utils/supabase/client";
 import { format } from "date-fns";
 import Link from "next/link";
 
@@ -18,29 +17,27 @@ export default function PostPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const router = useRouter();
-
   const { id } = useParams();
 
   useEffect(() => {
-    const supabase = createClient();
-
     const fetchPost = async () => {
       setLoading(true);
       setError("");
 
-      const { data, error } = await supabase
-        .from("posts")
-        .select()
-        .eq("id", id)
-        .single();
+      try {
+        const response = await fetch(`/api/blogs/${id}`);
+        const data = await response.json();
 
-      if (error) {
-        setError("Post not found.");
-      } else {
-        setPost(data);
+        if (response.ok) {
+          setPost(data);
+        } else {
+          setError(data.message || "Post not found.");
+        }
+      } catch (err) {
+        setError("Failed to fetch post.");
+      } finally {
+        setLoading(false);
       }
-
-      setLoading(false);
     };
 
     if (id) {
@@ -49,13 +46,24 @@ export default function PostPage() {
   }, [id]);
 
   const handleDelete = async () => {
-    const supabase = createClient();
-    const { error } = await supabase.from("posts").delete().eq("id", id);
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this post?"
+    );
+    if (!confirmDelete) return;
 
-    if (!error) {
-      router.push("/protected/blogs");
-    } else {
-      alert("Error deleting post: " + error.message);
+    try {
+      const response = await fetch(`/api/blogs/${id}`, {
+        method: "DELETE",
+      });
+
+      if (response.ok) {
+        router.push("/protected/blogs");
+      } else {
+        const data = await response.json();
+        alert(data.message || "Error deleting post.");
+      }
+    } catch (error) {
+      alert("Error deleting post.");
     }
   };
 

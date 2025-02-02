@@ -9,6 +9,7 @@ type Post = {
   title: string;
   body: string;
   created_at: string;
+  user_id: string;
 };
 
 export default function PostsPage() {
@@ -17,6 +18,7 @@ export default function PostsPage() {
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [user, setUser] = useState<{ id: string } | null>(null);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -25,7 +27,6 @@ export default function PostsPage() {
       try {
         const response = await fetch("/api/blogs");
         const data = await response.json();
-
         setPosts(data);
         setFilteredPosts(data);
       } catch (error) {
@@ -35,7 +36,14 @@ export default function PostsPage() {
       }
     };
 
+    const fetchUser = async () => {
+      const response = await fetch("/api/auth/me");
+      const data = await response.json();
+      setUser(data);
+    };
+
     fetchPosts();
+    fetchUser();
   }, []);
 
   const handleDelete = async (id: number) => {
@@ -43,7 +51,9 @@ export default function PostsPage() {
     setDeleting(id);
 
     try {
-      const response = await fetch(`/api/blogs/${id}`, { method: "DELETE" });
+      const response = await fetch(`/api/deleteblog/${id}`, {
+        method: "DELETE",
+      });
 
       if (!response.ok) throw new Error("Error deleting post");
 
@@ -110,14 +120,22 @@ export default function PostsPage() {
               <div className="mt-4 flex gap-2">
                 <Link
                   href={`/protected/blogs/edit/${post.id}`}
-                  className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600"
+                  className={`${
+                    user?.id === post.user_id
+                      ? "bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600"
+                      : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  }`}
                 >
                   Edit
                 </Link>
                 <button
                   onClick={() => handleDelete(post.id)}
-                  className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 disabled:bg-gray-400"
-                  disabled={deleting === post.id}
+                  className={`${
+                    user?.id === post.user_id
+                      ? "bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                      : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  } disabled:bg-gray-400`}
+                  disabled={deleting === post.id || user?.id !== post.user_id}
                 >
                   {deleting === post.id ? "Deleting..." : "Delete"}
                 </button>

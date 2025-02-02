@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
-import { createClient } from "@/utils/supabase/client";
 
 export default function EditPostPage() {
   const { id } = useParams();
@@ -15,20 +14,19 @@ export default function EditPostPage() {
   useEffect(() => {
     const fetchPost = async () => {
       setLoading(true);
-      const supabase = createClient();
-      const { data, error } = await supabase
-        .from("posts")
-        .select()
-        .eq("id", id)
-        .single();
+      try {
+        const response = await fetch(`/api/blogs/${id}`);
+        const data = await response.json();
 
-      if (error) {
+        if (data) {
+          setTitle(data.title);
+          setBody(data.body);
+        }
+      } catch (error) {
         setError("Failed to fetch post.");
-      } else {
-        setTitle(data.title);
-        setBody(data.body);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     if (id) fetchPost();
@@ -46,14 +44,18 @@ export default function EditPostPage() {
     }
 
     try {
-      const supabase = createClient();
-      const { error } = await supabase
-        .from("posts")
-        .update({ title, body })
-        .eq("id", id);
+      const response = await fetch(`/api/editblog/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ title, body }),
+      });
 
-      if (error) {
-        throw new Error(error.message);
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Something went wrong.");
       }
 
       router.push("/protected/blogs");
