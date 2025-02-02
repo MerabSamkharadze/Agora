@@ -17,10 +17,10 @@ export default async function AuthButton() {
     <div className="flex w-full justify-between items-center gap-4">
       <div className="flex gap-10 items-center justify-evenly">
         <Link
-          href="/protected/posts"
+          href="/protected/blogs"
           className="text-sm  text-primary hover:underline sm:text-base"
         >
-          Blog
+          Blogs
         </Link>
 
         <Link

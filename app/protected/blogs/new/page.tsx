@@ -1,27 +1,33 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 
-export default function AddPost() {
+export default function AddPostPage() {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [loading, setLoading] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [error, setError] = useState("");
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    setSuccessMessage("");
-    setErrorMessage("");
+    setError("");
+
+    if (!title.trim() || !body.trim()) {
+      setError("Title and body cannot be empty.");
+      setLoading(false);
+      return;
+    }
 
     try {
-      const supabase = await createClient();
+      const supabase = createClient();
       const { error } = await supabase.from("posts").insert([
         {
-          title: title,
-          body: body,
+          title,
+          body,
         },
       ]);
 
@@ -29,36 +35,22 @@ export default function AddPost() {
         throw new Error(error.message);
       }
 
-      setSuccessMessage("Post added successfully!");
-      setTitle("");
-      setBody("");
+      router.push("/protected/blogs");
     } catch (error: any) {
-      setErrorMessage(
-        error.message || "An error occurred while adding the post."
-      );
-    } finally {
+      setError(error.message || "Something went wrong.");
       setLoading(false);
     }
   };
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Add a New Post</h1>
+    <div className="p-6 max-w-2xl mx-auto">
+      <h1 className="text-3xl font-bold mb-4">Add a New Post</h1>
+
+      {error && <p className="text-red-500 mb-4">{error}</p>}
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        {successMessage && (
-          <div className="p-4 bg-green-100 text-green-800 rounded">
-            {successMessage}
-          </div>
-        )}
-        {errorMessage && (
-          <div className="p-4 bg-red-100 text-red-800 rounded">
-            {errorMessage}
-          </div>
-        )}
-
         <div>
-          <label className="block text-sm font-medium mb-1">Title</label>
+          <label className="block text-sm font-medium">Title</label>
           <input
             type="text"
             className="w-full border p-2 rounded"
@@ -69,7 +61,7 @@ export default function AddPost() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1">Body</label>
+          <label className="block text-sm font-medium">Body</label>
           <textarea
             className="w-full border p-2 rounded"
             rows={5}
