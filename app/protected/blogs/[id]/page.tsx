@@ -10,12 +10,14 @@ type Post = {
   title: string;
   body: string;
   created_at: string;
+  user_id: string; // Add user_id to your post type
 };
 
 export default function PostPage() {
   const [post, setPost] = useState<Post | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [user, setUser] = useState<{ id: string } | null>(null); // Track the user data
   const router = useRouter();
   const { id } = useParams();
 
@@ -40,8 +42,19 @@ export default function PostPage() {
       }
     };
 
+    const fetchUser = async () => {
+      try {
+        const response = await fetch("/api/auth/me");
+        const userData = await response.json();
+        setUser(userData);
+      } catch (err) {
+        console.error("Error fetching user data:", err);
+      }
+    };
+
     if (id) {
       fetchPost();
+      fetchUser();
     }
   }, [id]);
 
@@ -78,20 +91,23 @@ export default function PostPage() {
       </p>
       <p className="mt-4 text-lg">{post?.body}</p>
 
-      <div className="mt-6 flex gap-4">
-        <Link
-          href={`/protected/blogs/edit/${post?.id}`}
-          className="bg-yellow-500 text-white px-4 py-2 rounded"
-        >
-          Edit
-        </Link>
-        <button
-          onClick={handleDelete}
-          className="bg-red-500 text-white px-4 py-2 rounded"
-        >
-          Delete
-        </button>
-      </div>
+      {/* Show edit and delete buttons only if the user is the owner */}
+      {user?.id === post?.user_id && (
+        <div className="mt-6 flex gap-4">
+          <Link
+            href={`/protected/blogs/edit/${post?.id}`}
+            className="bg-yellow-500 text-white px-4 py-2 rounded"
+          >
+            Edit
+          </Link>
+          <button
+            onClick={handleDelete}
+            className="bg-red-500 text-white px-4 py-2 rounded"
+          >
+            Delete
+          </button>
+        </div>
+      )}
     </div>
   );
 }

@@ -5,7 +5,7 @@ export async function DELETE(
   req: Request,
   { params }: { params: { id: string } }
 ) {
-  const postId = params.id;
+  const postId = await params.id;
 
   try {
     const supabase = await createClient();

@@ -117,35 +117,30 @@ export default function PostsPage() {
                 {format(new Date(post.created_at), "PPPpp")}
               </span>
 
-              <div className="mt-4 flex gap-2">
-                <Link
-                  href={`/protected/blogs/edit/${post.id}`}
-                  className={`${
-                    user?.id === post.user_id
-                      ? "bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600"
-                      : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                  }`}
-                >
-                  Edit
-                </Link>
-                <button
-                  onClick={() => handleDelete(post.id)}
-                  className={`${
-                    user?.id === post.user_id
-                      ? "bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-                      : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                  } disabled:bg-gray-400`}
-                  disabled={deleting === post.id || user?.id !== post.user_id}
-                >
-                  {deleting === post.id ? "Deleting..." : "Delete"}
-                </button>
-                <Link
-                  href={`/protected/blogs/${post.id}`}
-                  className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
-                >
-                  See More
-                </Link>
-              </div>
+              {user?.id === post.user_id && (
+                <div className="mt-4 flex gap-2">
+                  <Link
+                    href={`/protected/blogs/edit/${post.id}`}
+                    className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600"
+                  >
+                    Edit
+                  </Link>
+                  <button
+                    onClick={() => handleDelete(post.id)}
+                    className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                    disabled={deleting === post.id}
+                  >
+                    {deleting === post.id ? "Deleting..." : "Delete"}
+                  </button>
+                </div>
+              )}
+
+              <Link
+                href={`/protected/blogs/${post.id}`}
+                className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
+              >
+                See More
+              </Link>
             </li>
           ))}
         </ul>
