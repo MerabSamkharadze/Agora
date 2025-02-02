@@ -8,6 +8,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import AddToCartSvg from "@/public/AddToCart";
 import { useState } from "react";
 import addToCart from "@/lib/addToCart";
+import { useToast } from "@/context/ToastContext";
 
 export type Startup = {
   _id: number;
@@ -24,19 +25,19 @@ export type Startup = {
 };
 
 const StartupCard = ({ product }: { product: Startup }) => {
-  const [isLoading, setIsLoading] = useState(false);
   const { _createdAt, views, price, title, category, _id, image, description } =
     product;
-
+  const [isLoading, setIsLoading] = useState(false);
+  const { addToast } = useToast();
   const handleAddToCart = async (product: Startup) => {
     setIsLoading(true);
     const result = await addToCart(product);
     setIsLoading(false);
 
     if (!result.success) {
-      alert(result.message);
+      addToast(result.message);
     } else {
-      alert("Product added to cart successfully!");
+      addToast("Product added to cart successfully!");
     }
   };
 
@@ -88,14 +89,7 @@ const StartupCard = ({ product }: { product: Startup }) => {
         <button
           onClick={() => handleAddToCart(product)}
           disabled={isLoading}
-          className={cn(
-            "text-sm py-2 px-6 bg-primary text-white rounded transition-transform duration-200",
-            {
-              "opacity-50 cursor-not-allowed": isLoading,
-              "hover:bg-primary-dark focus:outline-none active:scale-95":
-                !isLoading,
-            }
-          )}
+          className="text-sm py-2 px-6 bg-primary text-white rounded"
         >
           {isLoading ? "Adding..." : <AddToCartSvg />}
         </button>

@@ -1,5 +1,6 @@
 import HeaderAuth from "@/components/header-auth";
 import { ThemeSwitcher } from "@/components/theme-switcher";
+import { ToastProvider } from "@/context/ToastContext";
 
 import { GeistSans } from "geist/font/sans";
 import { ThemeProvider } from "next-themes";
@@ -46,7 +47,7 @@ export default function RootLayout({
                 </header>
               </nav>
               <div className="flex flex-col gap-20 items-center w-screen p-5">
-                {children}
+                <ToastProvider>{children}</ToastProvider>
               </div>
 
               <footer className="w-full flex items-center justify-between px-6 py-6 border-t border-text-white  text-sm gap-8">
