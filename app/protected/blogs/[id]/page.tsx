@@ -80,28 +80,58 @@ export default function PostPage() {
     }
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p className="text-red-500">{error}</p>;
+  if (loading)
+    return (
+      <div className="flex flex-col justify-center items-center min-h-[50vh]">
+        <svg
+          className="animate-spin h-12 w-12 text-primary mb-4"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <circle
+            className="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            strokeWidth="4"
+          ></circle>
+          <path
+            className="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+          ></path>
+        </svg>
+        <p className="text-lg text-gray-600">Loading...</p>
+      </div>
+    );
+  if (error)
+    return <p className="text-center text-red-500 text-lg mt-10">{error}</p>;
 
   return (
-    <div className="p-6 max-w-3xl mx-auto">
-      <h1 className="text-3xl font-bold">{post?.title}</h1>
-      <p className="text-gray-500 italic">
+    <div className="p-6 max-w-3xl mx-auto bg-white border border-gray-100 shadow-lg shadow-primary rounded-xl">
+      <div className="pink_container !min-h-[200px]">
+        <h1 className="text-4xl font-bold text-gray-900 mb-2 heading">
+          {post?.title}
+        </h1>
+      </div>
+      <p className="text-gray-500 italic mb-4 tag">
         {post?.created_at ? format(new Date(post.created_at), "PPPpp") : ""}
       </p>
-      <p className="mt-4 text-lg">{post?.body}</p>
+      <p className="mt-4 text-lg text-gray-800 leading-relaxed">{post?.body}</p>
 
       {user?.id === post?.user_id && (
         <div className="mt-6 flex gap-4">
           <Link
             href={`/protected/blogs/edit/${post?.id}`}
-            className="bg-yellow-500 text-white px-4 py-2 rounded"
+            className="bg-yellow-500 text-white px-5 py-2 rounded-lg hover:bg-yellow-600 transition shadow-md"
           >
             Edit
           </Link>
           <button
             onClick={handleDelete}
-            className="bg-red-500 text-white px-4 py-2 rounded"
+            className="bg-red-500 text-white px-5 py-2 rounded-lg hover:bg-red-600 transition shadow-md"
           >
             Delete
           </button>
