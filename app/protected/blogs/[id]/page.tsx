@@ -10,14 +10,14 @@ type Post = {
   title: string;
   body: string;
   created_at: string;
-  user_id: string; // Add user_id to your post type
+  user_id: string;
 };
 
 export default function PostPage() {
   const [post, setPost] = useState<Post | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [user, setUser] = useState<{ id: string } | null>(null); // Track the user data
+  const [user, setUser] = useState<{ id: string } | null>(null);
   const router = useRouter();
   const { id } = useParams();
 
@@ -65,7 +65,7 @@ export default function PostPage() {
     if (!confirmDelete) return;
 
     try {
-      const response = await fetch(`/api/blogs/${id}`, {
+      const response = await fetch(`/api/deleteblog/${id}`, {
         method: "DELETE",
       });
 
@@ -91,7 +91,6 @@ export default function PostPage() {
       </p>
       <p className="mt-4 text-lg">{post?.body}</p>
 
-      {/* Show edit and delete buttons only if the user is the owner */}
       {user?.id === post?.user_id && (
         <div className="mt-6 flex gap-4">
           <Link
