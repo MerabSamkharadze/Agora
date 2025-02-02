@@ -3,10 +3,9 @@ import { NextResponse } from "next/server";
 
 export async function GET(
   request: Request,
-  context: { params: { id: string } }
+  { params }: { params: { id: string } }
 ) {
-  // Ensure `params` is awaited before destructuring
-  const { id } = await context.params; // Wait for params to resolve
+  const { id } = await params;
   const supabase = await createClient();
 
   try {
