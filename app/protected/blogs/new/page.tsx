@@ -2,6 +2,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
 
 export default function AddPostPage() {
   const [title, setTitle] = useState("");
@@ -44,17 +47,21 @@ export default function AddPostPage() {
   };
 
   return (
-    <div className="p-6 max-w-2xl mx-auto">
-      <h1 className="text-3xl font-bold mb-4">Add a New Post</h1>
+    <div className="p-6 max-w-6xl mx-auto">
+      <div className="pink_container !min-h-[200px]">
+        <h1 className="heading ">
+          Share your opinion with the wider community
+        </h1>
+      </div>
 
       {error && <p className="text-red-500 mb-4">{error}</p>}
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4 mt-4">
         <div>
-          <label className="block text-sm font-medium">Title</label>
-          <input
+          <label className="startup-form_label">Title</label>
+          <Input
             type="text"
-            className="w-full border p-2 rounded"
+            className="startup-form_input"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
@@ -62,9 +69,9 @@ export default function AddPostPage() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium">Body</label>
-          <textarea
-            className="w-full border p-2 rounded"
+          <label className=" startup-form_label">Body</label>
+          <Textarea
+            className=" startup-form_textarea"
             rows={5}
             value={body}
             onChange={(e) => setBody(e.target.value)}
@@ -72,13 +79,9 @@ export default function AddPostPage() {
           />
         </div>
 
-        <button
-          type="submit"
-          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 disabled:bg-gray-400"
-          disabled={loading}
-        >
+        <Button type="submit" className="startup-form_btn" disabled={loading}>
           {loading ? "Adding Post..." : "Add Post"}
-        </button>
+        </Button>
       </form>
     </div>
   );
