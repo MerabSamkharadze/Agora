@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { format } from "date-fns";
 import Link from "next/link";
-import { Post, User } from "@/app/protected/blogs/page";
+import { Post } from "@/app/protected/blogs/page";
+import { User } from "@supabase/supabase-js";
 
 type PostsClientProps = {
   posts: Post[];

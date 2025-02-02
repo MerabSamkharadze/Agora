@@ -2,17 +2,18 @@ import { createClient } from "@/utils/supabase/server";
 import { NextResponse } from "next/server";
 
 export async function GET(
-  request: Request,
-  { params }: { params: { id: string } }
+  req: Request,
+  props: { params: Promise<{ id: string }> }
 ) {
-  const { id } = await params;
+  const params = await props.params;
+  const postId = await params.id;
   const supabase = await createClient();
 
   try {
     const { data, error } = await supabase
       .from("posts")
       .select()
-      .eq("id", id)
+      .eq("id", postId)
       .single();
 
     if (error || !data) {

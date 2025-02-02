@@ -2,11 +2,12 @@ import { createClient } from "@/utils/supabase/server";
 import { NextResponse } from "next/server";
 
 export async function PUT(
-  request: Request,
-  { params }: { params: { id: string } }
+  req: Request,
+  props: { params: Promise<{ id: string }> }
 ) {
-  const { id } = await params;
-  const { title, body } = await request.json();
+  const params = await props.params;
+  const postId = await params.id;
+  const { title, body } = await req.json();
 
   if (!title.trim() || !body.trim()) {
     return NextResponse.json(
@@ -21,7 +22,7 @@ export async function PUT(
     const { error } = await supabase
       .from("posts")
       .update({ title, body })
-      .eq("id", id);
+      .eq("id", postId);
 
     if (error) {
       throw new Error(error.message);
