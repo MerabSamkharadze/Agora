@@ -1,4 +1,5 @@
 import Blogs from "@/components/Blogs";
+import { createClient } from "@/utils/supabase/server";
 
 export type Post = {
   id: number;
@@ -11,9 +12,10 @@ export type Post = {
 import { User as SupabaseUser } from "@supabase/auth-js";
 
 export type User = SupabaseUser;
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
 async function fetchPosts(): Promise<Post[]> {
-  const res = await fetch("http://localhost:3000/api/blogs", {
+  const res = await fetch(`${siteUrl}/api/blogs`, {
     cache: "no-cache",
   });
   if (!res.ok) throw new Error("Failed to fetch posts");
@@ -21,11 +23,13 @@ async function fetchPosts(): Promise<Post[]> {
 }
 
 async function fetchUser(): Promise<User | null> {
-  const res = await fetch("http://localhost:3000/api/auth/me", {
-    cache: "no-cache",
-  });
-  if (!res.ok) return null;
-  return res.json();
+  const supabase = await createClient();
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
+
+  return user;
 }
 
 export default async function PostsPage() {
