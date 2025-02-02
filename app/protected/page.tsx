@@ -5,6 +5,7 @@ import SearchForm from "@/components/SearchForm";
 import StartupCard, { Startup } from "@/components/StartupCard";
 import Pagination from "@/components/Pagination";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 
 export default async function ProtectedPage(props: {
   searchParams: Promise<{ query?: string; page?: string }>;
@@ -55,6 +56,12 @@ export default async function ProtectedPage(props: {
         </p>
         <SearchForm query={query} />
       </section>
+      <Link
+        href="/protected/products/create"
+        className="startup-form_btn mt-2 text-white text-center block w-full bg-gradient-to-rpy-3 font-semibold text-lg shadow-md hover:opacity-90 transition"
+      >
+        Add New Product
+      </Link>
 
       <section className="section_container">
         <p className="text-30-semibold">

@@ -11,15 +11,37 @@ export default function AddPostPage() {
   const [body, setBody] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [titleError, setTitleError] = useState("");
+  const [bodyError, setBodyError] = useState("");
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setError("");
+    setTitleError("");
+    setBodyError("");
 
-    if (!title.trim() || !body.trim()) {
-      setError("Title and body cannot be empty.");
+    if (!title.trim()) {
+      setTitleError("Title cannot be empty.");
+      setLoading(false);
+      return;
+    }
+
+    if (title.length < 5) {
+      setTitleError("Title must be at least 5 characters.");
+      setLoading(false);
+      return;
+    }
+
+    if (!body.trim()) {
+      setBodyError("Text cannot be empty.");
+      setLoading(false);
+      return;
+    }
+
+    if (body.length < 120) {
+      setBodyError("Text must be more than 120 characters.");
       setLoading(false);
       return;
     }
@@ -66,17 +88,19 @@ export default function AddPostPage() {
             onChange={(e) => setTitle(e.target.value)}
             required
           />
+          {titleError && <p className="text-red-500">{titleError}</p>}
         </div>
 
         <div>
-          <label className=" startup-form_label">Body</label>
+          <label className="startup-form_label">Body</label>
           <Textarea
-            className=" startup-form_textarea"
+            className="startup-form_textarea"
             rows={5}
             value={body}
             onChange={(e) => setBody(e.target.value)}
             required
           />
+          {bodyError && <p className="text-red-500">{bodyError}</p>}
         </div>
 
         <Button type="submit" className="startup-form_btn" disabled={loading}>

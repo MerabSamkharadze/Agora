@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { addToCartHandler } from "@/actions/addToCart";
-import { Product } from "@/app/protected/startup/[id]/page";
+import { Product } from "@/app/protected/products/[id]/page";
 
 export async function POST(request: Request) {
   try {

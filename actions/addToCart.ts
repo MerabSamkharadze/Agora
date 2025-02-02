@@ -1,5 +1,5 @@
 import { createClient } from "@/utils/supabase/server";
-import { Product } from "@/app/protected/startup/[id]/page";
+import { Product } from "@/app/protected/products/[id]/page";
 
 interface ProductProps {
   product: Product;

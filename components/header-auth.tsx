@@ -22,19 +22,6 @@ export default async function AuthButton() {
         >
           Blogs
         </Link>
-
-        <Link
-          href="/protected/startup/create"
-          className="text-sm  text-primary hover:underline sm:text-base"
-        >
-          Create
-        </Link>
-        <Link
-          href="/protected/profile"
-          className="text-sm  text-primary hover:underline sm:text-base"
-        >
-          Profile
-        </Link>
         <Link
           href="/protected/contact"
           className="text-sm  text-primary hover:underline sm:text-base"
@@ -53,7 +40,12 @@ export default async function AuthButton() {
       <div className="flex gap-3 items-center">
         <ThemeSwitcher />
 
-        <p className="text-black-300">{user.email}</p>
+        <Link
+          href="/protected/profile"
+          className="text-sm  text-primary hover:underline sm:text-base"
+        >
+          {user.email?.split("@")[0]}
+        </Link>
 
         <form action={signOutAction}>
           <Button type="submit" variant={"outline"}>

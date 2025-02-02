@@ -1,5 +1,5 @@
 import { createClient } from "@/utils/supabase/client";
-import { Product } from "@/app/protected/startup/[id]/page";
+import { Product } from "@/app/protected/products/[id]/page";
 
 interface RemoveFromCartProps {
   productId: string;

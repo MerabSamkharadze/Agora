@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { createCheckoutSession } from "@/actions/stripe";
-import { Product } from "@/app/protected/startup/[id]/page";
+import { Product } from "@/app/protected/products/[id]/page";
 import { Button } from "./ui/button";
 
 interface CheckoutFormProps {

@@ -2,6 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
 
 export default function EditPostPage() {
   const { id } = useParams();
@@ -66,17 +69,21 @@ export default function EditPostPage() {
   };
 
   return (
-    <div className="p-6 max-w-2xl mx-auto">
-      <h1 className="text-3xl font-bold mb-4">Edit Post</h1>
+    <div className="">
+      <div className="pink_container !min-h-24">
+        <h1 className="heading">Edit Your Blog. Make It Perfect!</h1>
+      </div>
 
       {error && <p className="text-red-500 mb-4">{error}</p>}
 
-      <form onSubmit={handleUpdate} className="space-y-4">
+      <form onSubmit={handleUpdate} className="space-y-4 startup-form">
         <div>
-          <label className="block text-sm font-medium">Title</label>
-          <input
+          <label className="block text-sm font-medium startup-form_label">
+            Title
+          </label>
+          <Input
             type="text"
-            className="w-full border p-2 rounded"
+            className="w-full border p-2 rounded startup-form_input"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
@@ -84,9 +91,11 @@ export default function EditPostPage() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium">Body</label>
-          <textarea
-            className="w-full border p-2 rounded"
+          <label className="block text-sm font-medium startup-form_label">
+            Body
+          </label>
+          <Textarea
+            className="w-full border p-2 rounded startup-form_textarea"
             rows={5}
             value={body}
             onChange={(e) => setBody(e.target.value)}
@@ -94,13 +103,13 @@ export default function EditPostPage() {
           />
         </div>
 
-        <button
+        <Button
           type="submit"
-          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 disabled:bg-gray-400"
+          className="startup-form_btn text-white"
           disabled={loading}
         >
           {loading ? "Updating..." : "Save Changes"}
-        </button>
+        </Button>
       </form>
     </div>
   );

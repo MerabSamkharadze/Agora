@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { getCartProducts } from "@/actions/getCartProducts";
 import { removeFromCartHandler } from "@/actions/removeFromCart";
-import { Product } from "../startup/[id]/page";
+import { Product } from "../products/[id]/page";
 import CheckoutFormCart from "@/components/CheckoutFormCart";
 import Link from "next/link";
 

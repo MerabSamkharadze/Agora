@@ -55,7 +55,7 @@ const StartupCard = ({ product }: { product: Startup }) => {
 
       <div className="flex-between mt-5 gap-5">
         <div className="flex-1">
-          <Link href={`protected/startup/${_id}`}>
+          <Link href={`protected/products/${_id}`}>
             <h3 className="!text-lg !font-semibold  startup-card_desc">
               {title}
             </h3>
@@ -72,19 +72,19 @@ const StartupCard = ({ product }: { product: Startup }) => {
         />
       </div>
 
-      <Link href={`/startup/${_id}`}>
+      <div>
         <p className="startup-card_desc">{description}</p>
         <img src={image} alt="placeholder" className="startup-card_img" />
-      </Link>
+      </div>
 
       <div className="text-xl text-center font-semibold text-white bg-black py-1 px-2 mt-2 rounded-full shadow-md border-2 border-primary transition-all duration-300">
         $ {price / 100}
       </div>
 
       <div className="flex-between gap-3 mt-5">
-        <Link href={`/?query=${category?.toLowerCase()}`}>
+        <div>
           <p className="text-16-medium startup-card_desc">{category}</p>
-        </Link>
+        </div>
 
         <button
           onClick={() => handleAddToCart(product)}
@@ -93,11 +93,10 @@ const StartupCard = ({ product }: { product: Startup }) => {
         >
           {isLoading ? "Adding..." : <AddToCartSvg />}
         </button>
-
-        <Button className="startup-card_btn" asChild>
-          <Link href={`protected/startup/${_id}`}>Details</Link>
-        </Button>
       </div>
+      <Button className="startup-card_btn" asChild>
+        <Link href={`protected/startup/${_id}`}>Details</Link>
+      </Button>
     </li>
   );
 };
