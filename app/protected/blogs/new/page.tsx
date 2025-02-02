@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createClient } from "@/utils/supabase/client";
 
 export default function AddPostPage() {
   const [title, setTitle] = useState("");
@@ -23,16 +22,18 @@ export default function AddPostPage() {
     }
 
     try {
-      const supabase = createClient();
-      const { error } = await supabase.from("posts").insert([
-        {
-          title,
-          body,
+      const response = await fetch("/api/addpost", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      ]);
+        body: JSON.stringify({ title, body }),
+      });
 
-      if (error) {
-        throw new Error(error.message);
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to add post.");
       }
 
       router.push("/protected/blogs");

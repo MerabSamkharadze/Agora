@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { createClient } from "@/utils/supabase/client";
 import { format } from "date-fns";
 import Link from "next/link";
 
@@ -14,20 +13,26 @@ type Post = {
 
 export default function PostsPage() {
   const [posts, setPosts] = useState<Post[]>([]);
+  const [filteredPosts, setFilteredPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState<number | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const fetchPosts = async () => {
       setLoading(true);
-      const supabase = createClient();
-      const { data, error } = await supabase.from("posts").select();
-      if (error) {
-        console.error("Error fetching posts:", error.message);
-      } else {
-        setPosts(data || []);
+
+      try {
+        const response = await fetch("/api/blogs");
+        const data = await response.json();
+
+        setPosts(data);
+        setFilteredPosts(data);
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     fetchPosts();
@@ -38,16 +43,33 @@ export default function PostsPage() {
     setDeleting(id);
 
     try {
-      const supabase = createClient();
-      const { error } = await supabase.from("posts").delete().eq("id", id);
+      const response = await fetch(`/api/blogs/${id}`, { method: "DELETE" });
 
-      if (error) throw new Error(error.message);
+      if (!response.ok) throw new Error("Error deleting post");
 
       setPosts((prev) => prev.filter((post) => post.id !== id));
+      setFilteredPosts((prev) => prev.filter((post) => post.id !== id));
     } catch (error: any) {
       alert(error.message);
     } finally {
       setDeleting(null);
+    }
+  };
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+
+    if (query) {
+      setFilteredPosts(
+        posts.filter(
+          (post) =>
+            post.title.toLowerCase().includes(query.toLowerCase()) ||
+            post.body.toLowerCase().includes(query.toLowerCase())
+        )
+      );
+    } else {
+      setFilteredPosts(posts);
     }
   };
 
@@ -63,11 +85,21 @@ export default function PostsPage() {
         </Link>
       </div>
 
+      <div className="mb-4">
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={handleSearch}
+          placeholder="Search posts..."
+          className="border p-2 rounded w-full"
+        />
+      </div>
+
       {loading ? (
         <p>Loading...</p>
-      ) : posts.length > 0 ? (
+      ) : filteredPosts.length > 0 ? (
         <ul className="space-y-4">
-          {posts.map((post) => (
+          {filteredPosts.map((post) => (
             <li key={post.id} className="border p-4 rounded shadow relative">
               <h2 className="text-xl font-semibold">{post.title}</h2>
               <p className="text-gray-700">{post.body}</p>
