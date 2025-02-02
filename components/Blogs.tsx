@@ -5,6 +5,7 @@ import { format } from "date-fns";
 import Link from "next/link";
 import { Post } from "@/app/protected/blogs/page";
 import { User } from "@supabase/supabase-js";
+import Form from "next/form";
 
 type PostsClientProps = {
   posts: Post[];
@@ -54,47 +55,57 @@ export default function Blogs({ posts, user }: PostsClientProps) {
 
   return (
     <div className="p-4">
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold">Posts</h1>
+      <div className="p-6 max-w-6xl mx-auto">
+        <div className="pink_container">
+          <h1 className="text-2xl font-bold heading">
+            Words That Inspire, Thoughts That Transform.
+          </h1>
+          <Form className="search-form " action={""}>
+            <div className="mb-4">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={handleSearch}
+                placeholder="Search posts..."
+                className="search-input mt-4 "
+              />
+            </div>
+          </Form>
+        </div>
         <Link
           href="/protected/blogs/new"
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          className="startup-form_btn mt-2 text-white text-center block w-full bg-gradient-to-rpy-3 font-semibold text-lg shadow-md hover:opacity-90 transition"
         >
-          Add Post
+          Add New Blog
         </Link>
       </div>
 
-      <div className="mb-4">
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={handleSearch}
-          placeholder="Search posts..."
-          className="border p-2 rounded w-full"
-        />
-      </div>
-
       {filteredPosts.length > 0 ? (
-        <ul className="space-y-4">
+        <ul className="space-y-6">
           {filteredPosts.map((post) => (
-            <li key={post.id} className="border p-4 rounded shadow relative">
-              <h2 className="text-xl font-semibold">{post.title}</h2>
-              <p className="text-gray-700">{post.body}</p>
-              <span className="text-sm text-gray-500 italic">
+            <li
+              key={post.id}
+              className="border border-gray-200 bg-white p-6 rounded-xl shadow-lg transition hover:shadow-xl relative"
+            >
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                {post.title}
+              </h2>
+              <p className="text-gray-700 mb-3">{post.body}</p>
+              <span className="text-sm text-gray-500 italic block mb-4">
                 {format(new Date(post.created_at), "PPPpp")}
               </span>
 
               {user?.id === post.user_id && (
-                <div className="mt-4 flex gap-2">
+                <div className="mt-4 flex gap-3">
                   <Link
                     href={`/protected/blogs/edit/${post.id}`}
-                    className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600"
+                    className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition shadow-md"
                   >
                     Edit
                   </Link>
                   <button
                     onClick={() => handleDelete(post.id)}
-                    className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                    className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition shadow-md"
                     disabled={deleting === post.id}
                   >
                     {deleting === post.id ? "Deleting..." : "Delete"}
@@ -104,7 +115,7 @@ export default function Blogs({ posts, user }: PostsClientProps) {
 
               <Link
                 href={`/protected/blogs/${post.id}`}
-                className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
+                className="block mt-4 text-center bg-gradient-to-r from-green-500 to-blue-500 text-white px-5 py-2 rounded-lg hover:opacity-90 transition shadow-md"
               >
                 See More
               </Link>
@@ -112,7 +123,7 @@ export default function Blogs({ posts, user }: PostsClientProps) {
           ))}
         </ul>
       ) : (
-        <p>No posts found.</p>
+        <p className="text-center text-gray-500 text-lg">No posts found.</p>
       )}
     </div>
   );
