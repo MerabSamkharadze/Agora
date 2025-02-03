@@ -22,11 +22,23 @@ export type Startup = {
   views: string;
   stripe_price_id: string;
   stripe_product_id?: string;
+  author_img?: string;
+  author_name?: string;
 };
 
 const StartupCard = ({ product }: { product: Startup }) => {
-  const { _createdAt, views, price, title, category, _id, image, description } =
-    product;
+  const {
+    _createdAt,
+    views,
+    price,
+    title,
+    category,
+    _id,
+    image,
+    description,
+    author_img,
+    author_name,
+  } = product;
   const [isLoading, setIsLoading] = useState(false);
   const { addToast } = useToast();
   const handleAddToCart = async (product: Startup) => {
@@ -63,6 +75,7 @@ const StartupCard = ({ product }: { product: Startup }) => {
         </div>
         <Image
           src={
+            author_img ||
             "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/480px-User_icon_2.svg.png"
           }
           alt={"product"}
@@ -95,7 +108,7 @@ const StartupCard = ({ product }: { product: Startup }) => {
         </button>
       </div>
       <Button className="startup-card_btn" asChild>
-        <Link href={`protected/startup/${_id}`}>Details</Link>
+        <Link href={`protected/products/${_id}`}>Details</Link>
       </Button>
     </li>
   );

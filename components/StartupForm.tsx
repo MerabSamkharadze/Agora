@@ -129,6 +129,9 @@ const StartupForm = () => {
       price: price * 100,
       image: imageUrl,
       author: user.id,
+      author_img: user.user_metadata.avatar_url,
+      author_email: user.email,
+      author_nick_name: user.user_metadata.name,
       stripe_product_id,
       stripe_price_id,
     });
