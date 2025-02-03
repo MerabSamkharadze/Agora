@@ -1,9 +1,11 @@
 import type { Stripe } from "stripe";
 import { stripe } from "@/lib/stripe";
+import { createClient } from "@/utils/supabase/server";
 
 export default async function ResultPage(props: {
   searchParams: Promise<{ session_id: string }>;
 }): Promise<JSX.Element> {
+  const supabase = await createClient();
   const searchParams = await props.searchParams;
   if (!searchParams.session_id)
     throw new Error("Please provide a valid session_id (cs_test_...)");
@@ -13,12 +15,21 @@ export default async function ResultPage(props: {
       expand: ["line_items", "payment_intent"],
     });
 
-  const paymentIntent =
-    checkoutSession.payment_intent as Stripe.PaymentIntent | null;
+  if (checkoutSession.payment_status !== "paid") {
+    throw new Error("Payment was not successful.");
+  }
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (user) {
+    await supabase.from("users").update({ is_premium: true }).eq("id", user.id);
+  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-purple-50 to-purple-100">
-      <div className="p-10  ml-10 mr-10 bg-white shadow-lg rounded-xl text-center max-w-lg">
+      <div className="p-10 ml-10 mr-10 bg-white shadow-lg rounded-xl text-center max-w-lg">
         <h1 className="text-5xl font-extrabold text-primary mb-4">
           🎉 Welcome to Premium!
         </h1>

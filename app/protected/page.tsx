@@ -38,6 +38,14 @@ export default async function ProtectedPage(props: {
       },
     ]);
   }
+  const { data: existingUsers } = await supabase
+    .from("users")
+    .select("*")
+    .eq("id", user.id);
+
+  if (!existingUsers || existingUsers.length === 0) {
+    await supabase.from("users").insert([{ id: user.id, is_premium: false }]);
+  }
 
   const { products, total } = await fetchProducts(page, limit, query);
 
