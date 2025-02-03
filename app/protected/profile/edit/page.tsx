@@ -69,7 +69,7 @@ const EditProfile = () => {
         .getPublicUrl(uploadData.path);
 
       if (publicUrlData.publicUrl) {
-        uploadedAvatarUrl = publicUrlData.publicUrl; // Set the new avatar URL
+        uploadedAvatarUrl = publicUrlData.publicUrl;
       } else {
         setError("Failed to retrieve the public URL for the uploaded image.");
         setLoading(false);
@@ -77,11 +77,10 @@ const EditProfile = () => {
       }
     }
 
-    // Update the user's profile with the new name and avatar URL
     const { error: updateError } = await supabase.auth.updateUser({
       data: {
         name,
-        avatar_url: uploadedAvatarUrl, // Use the updated avatar URL
+        avatar_url: uploadedAvatarUrl,
       },
     });
 
@@ -90,7 +89,7 @@ const EditProfile = () => {
     if (updateError) {
       setError(updateError.message);
     } else {
-      router.push("/protected/profile"); // Redirect to profile page after successful update
+      router.push("/protected/profile");
     }
   };
 
@@ -123,9 +122,9 @@ const EditProfile = () => {
   }
 
   return (
-    <div className="max-w-lg mx-auto p-4">
+    <div className=" mx-auto p-4 ">
       <h1 className="text-2xl font-bold mb-6 text-center heading">
-        Edit Profile
+        Edit Your Profile
       </h1>
 
       {error && <p className="mb-4 text-center text-red-600">{error}</p>}
@@ -136,7 +135,7 @@ const EditProfile = () => {
             htmlFor="name"
             className="block text-sm font-medium text-gray-700 startup-form_label"
           >
-            Name
+            Avatar Name
           </label>
           <Input
             id="name"
@@ -153,7 +152,7 @@ const EditProfile = () => {
             htmlFor="avatarUrl"
             className="block text-sm font-medium text-gray-700 startup-form_label"
           >
-            Avatar
+            Avatar Image
           </label>
           <Input
             id="image"
@@ -167,7 +166,9 @@ const EditProfile = () => {
 
         {previewUrl && (
           <div className="mt-4 text-center">
-            <h4 className="font-medium text-gray-700">Avatar Preview:</h4>
+            <h4 className="font-medium text-gray-700 startup-form_label">
+              Avatar Preview:
+            </h4>
             <img
               src={previewUrl}
               alt="Avatar Preview"
@@ -179,16 +180,16 @@ const EditProfile = () => {
         <Button
           type="submit"
           disabled={loading}
-          className="w-full py-2 px-4 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors"
+          className="startup-form_btn text-white"
         >
-          Save
+          Update
         </Button>
       </form>
 
       <div className="text-center mt-4">
         <Link
           href={"/protected/reset-password"}
-          className="text-indigo-600 hover:underline"
+          className="startup-form_label hover:underline"
         >
           Reset Password
         </Link>

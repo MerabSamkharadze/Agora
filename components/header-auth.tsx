@@ -44,7 +44,7 @@ export default async function AuthButton() {
           href="/protected/profile"
           className="text-sm  text-primary hover:underline sm:text-base"
         >
-          {user.email?.split("@")[0]}
+          {user.user_metadata.name || user.email?.split("@")[0]}
         </Link>
 
         <form action={signOutAction}>
