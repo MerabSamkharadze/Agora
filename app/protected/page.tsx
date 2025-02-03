@@ -58,7 +58,7 @@ export default async function ProtectedPage(props: {
       </section>
       <Link
         href="/protected/products/create"
-        className="startup-form_btn mt-2 text-white text-center block w-full bg-gradient-to-rpy-3 font-semibold text-lg shadow-md hover:opacity-90 transition"
+        className="startup-form_btn mt-2 text-white text-center block w-full  font-semibold text-lg shadow-md hover:opacity-90 transition"
       >
         Add New Product
       </Link>

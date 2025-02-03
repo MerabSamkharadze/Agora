@@ -286,3 +286,9 @@
 .w-md-editor-toolbar {
   padding: 10px !important;
 }
+
+.z {
+  position: fixed;
+  bottom: 4rem;
+  right: 4rem;
+}
