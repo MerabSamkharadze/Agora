@@ -28,7 +28,6 @@ export default function AddProduct() {
       return;
     }
 
-    // შექმენი ახალი პროდუქტი
     const { error: insertError } = await supabase.from("products").insert({
       title,
       description,

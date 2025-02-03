@@ -7,14 +7,13 @@ import Link from "next/link";
 import OrdersSvg from "@/public/svgs/Orders";
 import Ping from "@/components/Ping";
 import UserStartups from "@/components/UserStartups";
+import EditSvg from "@/public/svgs/EditSvg";
 
 const Page = async () => {
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
-
-  console.log(user?.id);
 
   if (!user) return notFound();
 
@@ -41,7 +40,7 @@ const Page = async () => {
             <Ping />
           </div>
           <p className="text-30-extrabold mt-7 text-center">
-            @{user.email?.split("@")[0] || "Unknown"}
+            {user.email || "Unknown"}
           </p>
           <p className="mt-1 text-center text-14-normal">
             {user.user_metadata.email_verified
@@ -68,8 +67,19 @@ const Page = async () => {
                 Orders
               </span>
             </Link>
+
+            <Link
+              href="/protected/profile/edit"
+              className="startup-form_label absolute group"
+            >
+              <EditSvg />
+              <span className="absolute bottom-12 left-1/2 transform -translate-x-1/2 px-2 py-1 text-sm text-white bg-black rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                Edit Your Profile
+              </span>
+            </Link>
           </div>
-          <p className="text-30-bold">Your added products</p>
+
+          <p className="text-30-bold !mt-10 heading">Your added products</p>
 
           <ul className="card_grid-sm">
             <Suspense fallback={<StartupCardSkeleton />}>
