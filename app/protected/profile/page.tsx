@@ -6,12 +6,15 @@ import { StartupCardSkeleton } from "@/components/StartupCard";
 import Link from "next/link";
 import OrdersSvg from "@/public/svgs/Orders";
 import Ping from "@/components/Ping";
+import UserStartups from "@/components/UserStartups";
 
 const Page = async () => {
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
+  console.log(user?.id);
 
   if (!user) return notFound();
 
@@ -69,7 +72,9 @@ const Page = async () => {
           <p className="text-30-bold">Your added products</p>
 
           <ul className="card_grid-sm">
-            <Suspense fallback={<StartupCardSkeleton />}></Suspense>
+            <Suspense fallback={<StartupCardSkeleton />}>
+              <UserStartups id={user?.id} />
+            </Suspense>
           </ul>
         </div>
       </section>
