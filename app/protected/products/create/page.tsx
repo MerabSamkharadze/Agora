@@ -29,7 +29,7 @@ const Page = () => {
           <Button className="startup-form_btn">
             <Link
               href="/protected/pricing"
-              className="w-full h-full flex  items-center gap-3"
+              className="w-full h-full flex justify-center  items-center gap-3"
             >
               <LockSvg />
               Upgrade to Premium
