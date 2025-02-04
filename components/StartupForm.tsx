@@ -10,6 +10,7 @@ import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import { createStripeProduct } from "@/actions/createProductOnStripe";
 import { v4 as uuidv4 } from "uuid";
+import { Loader2 } from "lucide-react";
 
 const supabase = createClient();
 
@@ -36,7 +37,6 @@ const StartupForm = () => {
 
   const handleSubmitStartupForm = async (e: React.FormEvent) => {
     e.preventDefault();
-
     setError(null);
     setIsPending(true);
 
@@ -65,6 +65,7 @@ const StartupForm = () => {
     let imageUrl = "";
     let stripe_product_id = null;
     let stripe_price_id = null;
+
     if (image) {
       const uniquePath = `products/${uuidv4()}_${image.name}`;
       const { data: uploadData, error: uploadError } = await supabase.storage
@@ -100,13 +101,14 @@ const StartupForm = () => {
       imageUrl = publicUrlData.publicUrl;
     }
 
-    // Create product in Stripe
-    const productData = { title, description, price, imageUrl };
     try {
-      const { stripeProduct, stripePrice } =
-        await createStripeProduct(productData);
-      console.log("Product created:", stripeProduct.id);
-      console.log("Price created:", stripePrice.id);
+      const { stripeProduct, stripePrice } = await createStripeProduct({
+        title,
+        description,
+        price,
+        imageUrl,
+      });
+
       stripe_product_id = stripeProduct.id;
       stripe_price_id = stripePrice.id;
     } catch (error: any) {
@@ -143,23 +145,17 @@ const StartupForm = () => {
         description: insertError.message,
         variant: "destructive",
       });
-    } else {
-      toast({
-        title: "Submission Successful",
-        description: "Your pitch has been successfully submitted!",
-      });
-
-      setTitle("");
-      setDescription("");
-      setCategory("");
-      setPrice(0);
-      setImage(null);
-      setPreviewUrl(null);
-
-      router.push("/protected");
+      setIsPending(false);
+      return;
     }
 
-    setIsPending(false);
+    toast({
+      title: "Submission Successful",
+      description: "Your pitch has been successfully submitted!",
+    });
+
+    // *** არ ვცვლით isPending-ს false-ზე, რომ ლოუდერი დარჩეს ***
+    router.push("/protected");
   };
 
   return (
@@ -255,8 +251,17 @@ const StartupForm = () => {
         className="startup-form_btn text-white"
         disabled={isPending}
       >
-        {isPending ? "Submitting..." : "Submit Your Pitch"}
-        <Send className="size-6 ml-2" />
+        {isPending ? (
+          <>
+            <Loader2 className="size-6 animate-spin mr-2" />
+            Submitting...
+          </>
+        ) : (
+          <>
+            Submit Your Pitch
+            <Send className="size-6 ml-2" />
+          </>
+        )}
       </Button>
     </form>
   );
