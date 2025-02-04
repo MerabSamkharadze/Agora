@@ -4,6 +4,7 @@ import { createClient } from "@/utils/supabase/server";
 import { addToCartHandler } from "@/actions/addToCart";
 import AddToCartSvg from "@/public/AddToCart";
 import { deleteProductHandler } from "@/actions/deleteProduct";
+import { Button } from "@/components/ui/button";
 
 export type Product = {
   _id: number;
@@ -72,9 +73,11 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
             className="rounded-full drop-shadow-lg"
           />
           <div>
-            <p className="text-20-medium">{product.author_nick_name || "me"}</p>
+            <p className="text-20-medium">
+              {product.author_nick_name || "User Nick_Name"}
+            </p>
             <p className="text-16-medium !text-black-300">
-              @{product.author_email}
+              {product.author_email}
             </p>
           </div>
         </div>
@@ -89,22 +92,22 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
             {product.description}
           </article>
 
-          <p className="text-lg font-semibold text-white bg-primary py-3 px-5 rounded-full shadow-md border-2 border-primary hover:bg-primary-100 hover:text-black transition-all duration-300">
+          <p className="text-lg font-semibold text-primary bg-foreground/20 py-3 px-5 rounded-full shadow-md border-2 border-black hover:bg-primary-100 hover:text-black transition-all duration-300">
             Price: ${product.price / 100}
           </p>
 
           <form>
-            <button
+            <Button
               type="submit"
               formAction={async () => {
                 "use server";
                 await addToCartHandler({ product });
               }}
-              className="text-sm py-2 px-4 bg-primary text-white rounded transition-transform duration-200 hover:bg-primary-dark focus:outline-none active:scale-90 active:shadow-lg active:ring-2 active:ring-primary/50 flex items-center gap-2"
+              className="startup-form_btn"
             >
               <AddToCartSvg />
               <span className="font-semibold">Add to Cart</span>
-            </button>
+            </Button>
           </form>
 
           {user?.email === product.author_email && (
@@ -115,7 +118,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
                   "use server";
                   await deleteProductHandler(product._id);
                 }}
-                className="text-sm py-2 px-4 bg-red-600 text-white rounded transition-transform duration-200 hover:bg-red-700 focus:outline-none active:scale-90 active:shadow-lg active:ring-2 active:ring-red-400 flex items-center gap-2"
+                className="text-foreground "
               >
                 <span className="font-semibold">Delete Product</span>
               </button>

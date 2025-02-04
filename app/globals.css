@@ -106,7 +106,7 @@
   }
 
   .text-20-medium {
-    @apply font-medium text-[20px] text-black;
+    @apply font-medium text-[20px] text-foreground;
   }
 
   .text-16-medium {
