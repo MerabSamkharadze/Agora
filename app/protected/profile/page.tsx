@@ -8,6 +8,11 @@ import OrdersSvg from "@/public/svgs/Orders";
 import Ping from "@/components/Ping";
 import UserStartups from "@/components/UserStartups";
 import EditSvg from "@/public/svgs/EditSvg";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Profile",
+};
 
 const Page = async () => {
   const supabase = await createClient();

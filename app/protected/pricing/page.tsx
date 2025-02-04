@@ -1,9 +1,8 @@
+import CheckoutForm from "@/components/CheckoutForm";
 import type { Metadata } from "next";
 
-import CheckoutForm from "@/components/CheckoutForm";
-
 export const metadata: Metadata = {
-  title: "Membership Options",
+  title: "Pricing",
 };
 
 export default async function IndexPage(props: {

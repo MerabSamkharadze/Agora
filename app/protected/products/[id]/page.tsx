@@ -5,6 +5,11 @@ import { addToCartHandler } from "@/actions/addToCart";
 import AddToCartSvg from "@/public/AddToCart";
 import { deleteProductHandler } from "@/actions/deleteProduct";
 import { Button } from "@/components/ui/button";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Products",
+};
 
 export type Product = {
   _id: number;

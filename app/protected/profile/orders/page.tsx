@@ -1,6 +1,11 @@
 import Link from "next/link";
 import { createClient } from "@/utils/supabase/server";
 import dayjs from "dayjs";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Orders",
+};
 
 async function Orders() {
   const supabase = await createClient();

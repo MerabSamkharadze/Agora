@@ -1,5 +1,10 @@
 import Blogs from "@/components/Blogs";
 import { createClient } from "@/utils/supabase/server";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Blogs",
+};
 
 export type Post = {
   id: number;

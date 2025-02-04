@@ -1,6 +1,11 @@
 import type { Stripe } from "stripe";
 import { stripe } from "@/lib/stripe";
 import { createClient } from "@/utils/supabase/server";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Premium Member 💎",
+};
 
 export default async function ResultPage(props: {
   searchParams: Promise<{ session_id: string }>;
