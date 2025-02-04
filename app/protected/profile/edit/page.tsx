@@ -7,11 +7,6 @@ import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { v4 as uuidv4 } from "uuid";
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Edit Your Profile",
-};
 
 const EditProfile = () => {
   const supabase = createClient();
