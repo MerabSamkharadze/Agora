@@ -13,5 +13,5 @@ export async function deleteProductHandler(productId: number) {
     console.error("Error deleting product:", error.message);
     throw new Error("Failed to delete product");
   }
-  redirect("/protected");
+  redirect("/protected/profile");
 }
