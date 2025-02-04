@@ -40,7 +40,7 @@ const Page = async () => {
             <Ping />
           </div>
           <p className="text-23-extrabold mt-7 text-center">
-            sdfv{user.email || "Unknown"}
+            {user.email || "Unknown"}
           </p>
           <p className="mt-1 text-center text-14-normal">
             {user.user_metadata.email_verified

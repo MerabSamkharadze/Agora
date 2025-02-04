@@ -108,7 +108,7 @@ const StartupCard = ({ product }: { product: Startup }) => {
         </button>
       </div>
       <Button className="startup-card_btn" asChild>
-        <Link href={`protected/products/${_id}`}>Details</Link>
+        <Link href={`/protected/products/${_id}`}>Details</Link>
       </Button>
     </li>
   );

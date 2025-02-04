@@ -1,8 +1,6 @@
-import { Suspense } from "react";
 import { formatDate } from "@/lib/utils";
 import { createClient } from "@/utils/supabase/server";
 
-import { Skeleton } from "@/components/ui/skeleton";
 import { addToCartHandler } from "@/actions/addToCart";
 import AddToCartSvg from "@/public/AddToCart";
 import { deleteProductHandler } from "@/actions/deleteProduct";
@@ -54,7 +52,6 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
       <section className="pink_container !min-h-[230px]">
         <p className="tag">{formatDate(product._createdAt)}</p>
         <h1 className="heading">{product.title}</h1>
-        <p className="sub-heading !max-w-5xl">{product.description}</p>
       </section>
 
       <section className="section_container">
@@ -127,10 +124,6 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
         </div>
 
         <hr className="divider" />
-
-        <Suspense fallback={<Skeleton className="view_skeleton" />}>
-          {/* Suspended content goes here */}
-        </Suspense>
       </section>
     </>
   );
