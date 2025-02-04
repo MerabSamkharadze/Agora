@@ -64,12 +64,12 @@ export default function Cart() {
 
   return (
     <Link href={`/protected/cart`} className="relative inline-block">
-      <span className="absolute -top-1 -right-1 flex items-center justify-center font-semibold text-xs bg-green-600 rounded-full w-5 h-5 text-white">
+      <span className="absolute -top-1 -right-1 flex items-center justify-center font-semibold z-50 text-xs bg-green-600 rounded-full w-5 h-5 text-white">
         {cartCount}
       </span>
 
       <div className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 transition">
-        <CartSvg className="w-7 h-7 text-gray-700" />
+        <CartSvg className="w-7 h-7 text-gray-700 hover:scale-110 transition " />
       </div>
     </Link>
   );
