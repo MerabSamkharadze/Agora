@@ -39,12 +39,13 @@ async function Orders() {
       </>
     );
   }
+
   return (
     <>
       <section className="pink_container !min-h-40">
-        <h1 className="heading">Orders History</h1>
+        <h1 className="heading text-center">Orders History</h1>
       </section>
-      <section className="min-h-screen bg-gradient-to-tr py-12 from-primary ">
+      <section className="  py-12 bg-primary ">
         <div className="container mx-auto px-4">
           {orders && orders.length > 0 ? (
             <div className="flex flex-col gap-8">
@@ -60,10 +61,10 @@ async function Orders() {
                   return (
                     <div
                       key={order.id}
-                      className="bg-white dark:bg-primary-dark rounded-lg shadow-lg border-2 border-gray-200 dark:border-primary-light transition-all duration-300"
+                      className="bg-white rounded-lg shadow-lg border border-gray-200 dark:border-primary-light transition-all duration-300 p-4"
                     >
-                      <div className="p-6 border-b dark:border-primary-light rounded-t-lg">
-                        <h3 className="text-xl font-semibold text-primary dark:text-primary-light">
+                      <div className="p-4 border-b dark:border-primary-light rounded-t-lg">
+                        <h3 className="text-lg md:text-xl font-semibold text-primary dark:text-primary-light">
                           Order #{order.id}
                         </h3>
                         <p className="text-sm text-primary-light dark:text-primary-muted">
@@ -75,26 +76,26 @@ async function Orders() {
                           Total: ${(totalAmount / 100).toFixed(2)}
                         </p>
                       </div>
-                      <div className="p-6 overflow-x-auto">
-                        <div className="flex space-x-6">
+                      <div className="p-4">
+                        <div className="flex overflow-x-auto space-x-4">
                           {order.products.map((product: any) => (
                             <div
                               key={product._id}
-                              className="flex-shrink-0 w-48" // Prevent wrapping, make it a fixed width
+                              className="flex-shrink-0 w-44 sm:w-48 md:w-56"
                             >
                               <img
                                 src={product.image}
                                 alt={product.title}
-                                className="w-20 h-20 object-cover rounded-md border border-gray-300 shadow-md"
+                                className="w-24 h-24 object-cover rounded-md border border-gray-300 shadow-md"
                               />
-                              <div>
+                              <div className="mt-2">
                                 <Link
                                   href={`/products/${product._id}`}
-                                  className="text-primary hover:text-primary-dark dark:text-primary-light dark:hover:text-primary-muted font-semibold"
+                                  className="text-primary hover:text-primary-dark dark:text-primary-light dark:hover:text-primary-muted font-semibold text-sm md:text-base"
                                 >
                                   {product.title}
                                 </Link>
-                                <p className="text-sm text-primary-light dark:text-primary-muted">
+                                <p className="text-xs md:text-sm text-primary-light dark:text-primary-muted">
                                   ${(product.price / 100).toFixed(2)}
                                 </p>
                               </div>
@@ -107,13 +108,16 @@ async function Orders() {
                 })}
             </div>
           ) : (
-            <h2 className="text-center text-primary dark:text-primary-light text-4xl font-semibold">
-              No Orders Yet
+            <div className="flex flex-col items-center">
+              <h2 className="text-center text-primary dark:text-primary-light text-2xl md:text-4xl font-semibold">
+                No Orders Yet
+              </h2>
               <img
                 src="https://rsrc.easyeat.ai/mweb/no-orders2.webp"
                 alt="orders"
+                className="w-3/4 md:w-1/3"
               />
-            </h2>
+            </div>
           )}
         </div>
       </section>
