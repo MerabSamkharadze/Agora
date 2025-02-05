@@ -1,17 +1,39 @@
-describe("Sign Up Flow", () => {
-  it("should sign up and sign in the user", () => {
-    cy.visit("http://localhost:3000");
+describe("Sign In Flow", () => {
+  it("should sign in the user", () => {
+    cy.visit("/");
 
-    cy.contains("Sign up").click();
-    cy.url().should("include", "/sign-up");
+    cy.contains("Sign in").click();
+    cy.url().should("include", "/sign-in");
 
-    cy.get('input[name="email"]').type("testuser51@example.com");
-    cy.get('input[name="password"]').type("password123");
+    cy.get('input[name="email"]').type("admin@gmail.com");
+    cy.get('input[name="password"]').type("admin");
 
-    cy.get("button[type='submit']").click();
+    cy.get('[data-cy="sign-in-btn"]').click();
 
-    cy.contains("Thanks for signing up!", { timeout: 5000 }).should(
-      "be.visible"
-    );
+    cy.url().should("include", "/protected");
+  });
+  it("should sign out the user", () => {
+    cy.visit("/");
+
+    cy.contains("Sign in").click();
+    cy.url().should("include", "/sign-in");
+
+    cy.get('input[name="email"]').type("admin@gmail.com");
+    cy.get('input[name="password"]').type("admin");
+    cy.get('[data-cy="sign-in-btn"]').click();
+
+    cy.get("[data-cy='sign-out-btn']").click();
+
+    cy.url().should("include", "/sign-in");
+  });
+  it("failed sign in", () => {
+    cy.visit("/");
+
+    cy.contains("Sign in").click();
+    cy.url().should("include", "/sign-in");
+
+    cy.get('input[name="email"]').type(" asasdfdfg@gmail.com ");
+    cy.get('input[name="password"]').type("admin");
+    cy.get('[data-cy="sign-in-btn"]').click();
   });
 });

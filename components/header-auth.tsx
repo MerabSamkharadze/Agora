@@ -52,7 +52,7 @@ export default async function AuthButton() {
         </Link>
 
         <form action={signOutAction}>
-          <Button type="submit" variant={"outline"}>
+          <Button data-cy="sign-out-btn" type="submit" variant={"outline"}>
             Sign out
           </Button>
         </form>

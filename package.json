@@ -4,7 +4,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test:e2e": "cypress open"
+    "test:e2e": "cypress open",
+    "test:e2e:ci": "cypress run"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.2",
