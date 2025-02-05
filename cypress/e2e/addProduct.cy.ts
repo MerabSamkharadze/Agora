@@ -8,8 +8,8 @@ describe("Startup Form", () => {
     cy.contains("Sign in").click();
     cy.url().should("include", "/sign-in");
 
-    cy.get('input[name="email"]').type("admin@gmail.com");
-    cy.get('input[name="password"]').type("admin");
+    cy.get('input[name="email"]').type("admin2@gmail.com");
+    cy.get('input[name="password"]').type("admin2");
 
     cy.get('[data-cy="sign-in-btn"]').click();
     cy.url().should("include", "/protected");
