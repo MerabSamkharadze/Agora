@@ -1,5 +1,5 @@
 "use client";
-import { cn, formatDate } from "@/lib/utils";
+import { formatDate } from "@/lib/utils";
 import { EyeIcon } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -37,7 +37,6 @@ const StartupCard = ({ product }: { product: Startup }) => {
     image,
     description,
     author_img,
-    author_name,
   } = product;
   const [isLoading, setIsLoading] = useState(false);
   const { addToast } = useToast();

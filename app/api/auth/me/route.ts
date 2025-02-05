@@ -15,6 +15,7 @@ export async function GET() {
     }
 
     return NextResponse.json(user, { status: 200 });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     return NextResponse.json(
       { message: error.message || "Something went wrong." },

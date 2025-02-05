@@ -42,10 +42,9 @@ export async function POST(request: Request) {
       { message: "Post added successfully!" },
       { status: 201 }
     );
-  } catch (error: any) {
-    return NextResponse.json(
-      { message: error.message || "Something went wrong." },
-      { status: 500 }
-    );
+  } catch (error: unknown) {
+    const errorMessage =
+      error instanceof Error ? error.message : "Something went wrong.";
+    return NextResponse.json({ message: errorMessage }, { status: 500 });
   }
 }

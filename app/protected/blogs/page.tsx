@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import Blogs from "@/components/Blogs";
 import { createClient } from "@/utils/supabase/server";
 import type { Metadata } from "next";

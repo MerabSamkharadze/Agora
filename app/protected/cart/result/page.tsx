@@ -2,7 +2,6 @@ import type { Stripe } from "stripe";
 import { createClient } from "@/utils/supabase/server";
 import { stripe } from "@/lib/stripe";
 import Link from "next/link";
-import { log } from "node:console";
 
 export default async function ResultPage(props: {
   searchParams: Promise<{ session_id: string }>;

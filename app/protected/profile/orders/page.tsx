@@ -2,6 +2,7 @@ import Link from "next/link";
 import { createClient } from "@/utils/supabase/server";
 import dayjs from "dayjs";
 import type { Metadata } from "next";
+import { Product } from "../../products/[id]/page";
 
 export const metadata: Metadata = {
   title: "Orders",
@@ -54,7 +55,7 @@ async function Orders() {
                 .reverse()
                 .map((order) => {
                   const totalAmount = order.products.reduce(
-                    (acc: number, product: any) => acc + product.price,
+                    (acc: number, product: Product) => acc + product.price,
                     0
                   );
 
@@ -78,7 +79,7 @@ async function Orders() {
                       </div>
                       <div className="p-4">
                         <div className="flex overflow-x-auto space-x-4">
-                          {order.products.map((product: any) => (
+                          {order.products.map((product: Product) => (
                             <div
                               key={product._id}
                               className="flex-shrink-0 w-44 sm:w-48 md:w-56"
