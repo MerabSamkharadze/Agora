@@ -154,7 +154,6 @@ const StartupForm = () => {
       description: "Your pitch has been successfully submitted!",
     });
 
-    // *** არ ვცვლით isPending-ს false-ზე, რომ ლოუდერი დარჩეს ***
     router.push("/protected");
   };
 
@@ -165,6 +164,7 @@ const StartupForm = () => {
           Title
         </label>
         <Input
+          data-cy="title"
           id="title"
           name="title"
           className="startup-form_input"
@@ -180,6 +180,7 @@ const StartupForm = () => {
           Description
         </label>
         <Textarea
+          data-cy="description"
           id="description"
           name="description"
           className="startup-form_textarea"
@@ -195,6 +196,7 @@ const StartupForm = () => {
           Price
         </label>
         <Input
+          data-cy="price"
           id="price"
           name="price"
           type="text"
@@ -211,6 +213,7 @@ const StartupForm = () => {
           Category
         </label>
         <Input
+          data-cy="category"
           id="category"
           name="category"
           className="startup-form_input"
@@ -226,6 +229,7 @@ const StartupForm = () => {
           Image
         </label>
         <Input
+          data-cy="image"
           id="image"
           name="image"
           className="startup-form_input"
@@ -247,6 +251,7 @@ const StartupForm = () => {
       )}
 
       <Button
+        data-cy="addProduct-btn"
         type="submit"
         className="startup-form_btn text-white"
         disabled={isPending}
