@@ -111,28 +111,32 @@ export default function PostPage() {
     return <p className="text-center text-red-500 text-lg mt-10">{error}</p>;
 
   return (
-    <div className="p-6 max-w-3xl mx-auto bg-white border border-gray-100 shadow-lg shadow-primary rounded-xl">
+    <div className="grid grid-cols-1 md:grid-cols-1 gap-6 p-4 sm:p-6 max-w-3xl mx-auto bg-white border border-gray-100 shadow-lg shadow-primary rounded-xl">
       <div className="pink_container !min-h-[200px]">
-        <h1 className="text-4xl font-bold text-gray-900 mb-2 heading">
+        <h1 className="text-2xl sm:text-4xl font-bold text-gray-900 mb-2 heading">
           {post?.title}
         </h1>
       </div>
-      <p className="text-gray-500 italic mb-4 tag">
+
+      <p className="text-sm sm:text-base text-gray-500 italic mb-4 tag">
         {post?.created_at ? format(new Date(post.created_at), "PPPpp") : ""}
       </p>
-      <p className="mt-4 text-lg text-gray-800 leading-relaxed">{post?.body}</p>
+
+      <div className="text-gray-700 mt-2 line-clamp-4 leading-relaxed break-words">
+        {post?.body}
+      </div>
 
       {user?.id === post?.user_id && (
-        <div className="mt-6 flex gap-4">
+        <div className="mt-6 flex flex-col sm:flex-row gap-3 sm:gap-4">
           <Link
             href={`/protected/blogs/edit/${post?.id}`}
-            className="bg-yellow-500 text-white px-5 py-2 rounded-lg hover:bg-yellow-600 transition shadow-md"
+            className="bg-yellow-500 text-white px-4 sm:px-5 py-2 rounded-lg hover:bg-yellow-600 transition shadow-md text-center"
           >
             Edit
           </Link>
           <button
             onClick={handleDelete}
-            className="bg-red-500 text-white px-5 py-2 rounded-lg hover:bg-red-600 transition shadow-md"
+            className="bg-red-500 text-white px-4 sm:px-5 py-2 rounded-lg hover:bg-red-600 transition shadow-md text-center"
           >
             Delete
           </button>

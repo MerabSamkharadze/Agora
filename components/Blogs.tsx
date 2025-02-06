@@ -84,7 +84,7 @@ export default function Blogs({ posts, user }: PostsClientProps) {
         </div>
 
         {filteredPosts.length > 0 ? (
-          <ul className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <ul className="grid grid-cols-1 md:grid-cols-1 gap-6">
             {filteredPosts.map((post) => (
               <li
                 key={post.id}
@@ -96,7 +96,7 @@ export default function Blogs({ posts, user }: PostsClientProps) {
                     : post.title}
                 </h2>
 
-                <div className="text-gray-700 mt-2 line-clamp-4">
+                <div className="text-gray-700 mt-2 line-clamp-4 leading-relaxed break-words">
                   {post.body}
                 </div>
 
