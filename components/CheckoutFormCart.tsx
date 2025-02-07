@@ -32,7 +32,7 @@ export default function CheckoutFormCart({
           products.map((product) => ({
             id: product._id,
             price: product.stripe_price_id,
-            quantity: 1,
+            quantity: product.quantity,
           }))
         )
       );

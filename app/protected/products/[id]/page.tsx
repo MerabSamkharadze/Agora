@@ -13,6 +13,7 @@ export const metadata: Metadata = {
 };
 
 export type Product = {
+  quantity: number;
   _id: number;
   title: string;
   description: string;
