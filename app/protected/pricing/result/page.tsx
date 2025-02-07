@@ -19,7 +19,8 @@ export default async function ResultPage(props: {
     await stripe.checkout.sessions.retrieve(searchParams.session_id, {
       expand: ["line_items", "payment_intent"],
     });
-
+  console.log(checkoutSession.subscription);
+  let subscription = checkoutSession.subscription;
   if (checkoutSession.payment_status !== "paid") {
     throw new Error("Payment was not successful.");
   }
@@ -29,7 +30,10 @@ export default async function ResultPage(props: {
   } = await supabase.auth.getUser();
 
   if (user) {
-    await supabase.from("users").update({ is_premium: true }).eq("id", user.id);
+    await supabase
+      .from("users")
+      .update({ is_premium: true, subscription })
+      .eq("id", user.id);
   }
 
   return (

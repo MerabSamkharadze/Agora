@@ -95,22 +95,19 @@ const EditProfile = () => {
 
   // Remove Subscription Function
 
-  const handleRemoveSubscription = async () => {
+  const handleCancelSubscription = async () => {
     setLoading(true);
     setError(null);
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
 
-    const { error: updateError } = await supabase
-      .from("users")
-      .update({ is_premium: false })
-      .eq("id", user?.id);
+    const response = await fetch("/api/cancel-subscription", {
+      method: "POST",
+    });
 
+    const result = await response.json();
     setLoading(false);
 
-    if (updateError) {
-      setError(updateError.message);
+    if (!response.ok) {
+      setError(result.error || "Failed to cancel subscription");
     }
     redirect("/protected/profile");
   };
@@ -171,7 +168,7 @@ const EditProfile = () => {
 
         <div>
           <label
-            htmlFor="avatarUrl"
+            htmlFor="image"
             className="block text-sm font-medium text-gray-700 startup-form_label"
           >
             Avatar Image
@@ -215,7 +212,7 @@ const EditProfile = () => {
             You are currently a premium user.
           </p>
           <Button
-            onClick={handleRemoveSubscription}
+            onClick={handleCancelSubscription}
             className="startup-form_label !text-white mt-2"
           >
             Remove Subscription
