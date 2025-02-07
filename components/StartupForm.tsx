@@ -265,7 +265,7 @@ const StartupForm = () => {
           </>
         ) : (
           <>
-            Submit Your Pitch
+            Submit Your Product
             <Send className="size-6 ml-2" />
           </>
         )}

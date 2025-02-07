@@ -1,7 +1,7 @@
 "use client";
-
+import { usePremium } from "@/context/PremiumContext";
 import { useState, useEffect, FormEvent } from "react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
@@ -14,11 +14,11 @@ const EditProfile = () => {
 
   const [name, setName] = useState("");
   const [avatarUrl, setAvatarUrl] = useState("");
+  const { isPremium } = usePremium();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [image, setImage] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-
   useEffect(() => {
     const fetchProfile = async () => {
       const {
@@ -93,6 +93,28 @@ const EditProfile = () => {
     }
   };
 
+  // Remove Subscription Function
+
+  const handleRemoveSubscription = async () => {
+    setLoading(true);
+    setError(null);
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    const { error: updateError } = await supabase
+      .from("users")
+      .update({ is_premium: false })
+      .eq("id", user?.id);
+
+    setLoading(false);
+
+    if (updateError) {
+      setError(updateError.message);
+    }
+    redirect("/protected/profile");
+  };
+
   if (loading) {
     return (
       <div className="flex flex-col justify-center items-center min-h-[50vh]">
@@ -122,7 +144,7 @@ const EditProfile = () => {
   }
 
   return (
-    <div className=" mx-auto p-4 ">
+    <div className="mx-auto p-4">
       <h1 className="text-2xl font-bold mb-6 text-center heading">
         Edit Your Profile
       </h1>
@@ -185,6 +207,21 @@ const EditProfile = () => {
           Update
         </Button>
       </form>
+
+      {/* Remove Subscription Section */}
+      {isPremium && (
+        <div className="text-center mt-6">
+          <p className="text- text-gray-500">
+            You are currently a premium user.
+          </p>
+          <Button
+            onClick={handleRemoveSubscription}
+            className="startup-form_label !text-white mt-2"
+          >
+            Remove Subscription
+          </Button>
+        </div>
+      )}
 
       <div className="text-center mt-4">
         <Link
