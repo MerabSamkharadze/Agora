@@ -199,7 +199,6 @@ const CartPage = () => {
         </p>
       </div>
 
-      {/* Checkout form component (Stripe integration) */}
       <div className="mt-6 flex justify-end">
         <CheckoutFormCart
           uiMode="hosted"

@@ -74,7 +74,7 @@ async function Orders() {
                           )}
                         </p>
                         <p className="text-lg font-semibold text-primary dark:text-primary-light">
-                          Total: ${(totalAmount / 100).toFixed(2)}
+                          Total: ${(order.total / 100).toFixed(2)}
                         </p>
                       </div>
                       <div className="p-4">
@@ -91,7 +91,7 @@ async function Orders() {
                               />
                               <div className="mt-2">
                                 <Link
-                                  href={`/products/${product._id}`}
+                                  href={`/protected/products/${product._id}`}
                                   className="text-primary hover:text-primary-dark dark:text-primary-light dark:hover:text-primary-muted font-semibold text-sm md:text-base"
                                 >
                                   {product.title}

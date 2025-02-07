@@ -16,6 +16,7 @@ export default async function ResultPage(props: {
     await stripe.checkout.sessions.retrieve(searchParams.session_id, {
       expand: ["line_items", "payment_intent"],
     });
+  console.log(checkoutSession.amount_total);
 
   const productIdsString = checkoutSession.metadata?.product_ids;
   if (!productIdsString) {
@@ -42,6 +43,7 @@ export default async function ResultPage(props: {
   const orderData = {
     user_id: userId,
     products,
+    total: checkoutSession.amount_total,
   };
 
   const { error: insertOrderError } = await supabase
@@ -53,7 +55,6 @@ export default async function ResultPage(props: {
     throw new Error("Failed to insert order.");
   }
 
-  // კალათის გასუფთავება
   const { error: clearCartError } = await supabase
     .from("user_cart")
     .update({ products: [] })
